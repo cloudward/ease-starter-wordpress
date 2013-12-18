@@ -1,19 +1,6 @@
 <# include "_htmlheader.espx" #>
 
 
-<# start list for content;
-include when content.page == "member_logon";
-hide pager both;
-#>
-<# start header #><# end header #>
-<# start row #>
-<# content.body #>
-<# end row #>
-<# start footer #><# end footer #>
-<# no results #>
-	<!-- do nothing -->
-<# end no results #>
-<# end list #>
 <div style="" class="loginContainer">
 <span class="wp_hide"><h2>Member Only Access - Please Logon</h2></span>
 <form name="input" action="/" method="get"> 
