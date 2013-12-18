@@ -1,0 +1,237 @@
+<# include "_htmlheader.espx" #>
+
+<style>
+.single-page-title{
+	margin-bottom: 35px;
+}	
+</style>
+
+<script>
+function goBack()
+{
+window.location = "/?page=store";
+}
+</script>
+
+<center>
+<div style="width: 100%;">
+<table>
+	<tr>
+		<td>
+			
+
+<h3><#[url.message]#></h3>
+<# start list for content;
+include when content.page == "store-cart";
+hide pager both;
+#>
+<# start header #><# end header #>
+<# start row #>
+<# content.body #>
+<# end row #>
+<# start footer #><# end footer #>
+<# no results #>
+<div class="warning">Store-cart Not Setup <a href="/?page=admin_wizard_pages&edit=0&iid=9bef2c1c3e544fe3856b12f4c98ea228&value=store-cart&name=Website-store-cart&desc=Content for our store-cart"><u>Click here</u></a>.</div>
+<# end no results #>
+<# end list #>
+
+<# start list for cart;
+include when cart.orderid == "<#[cookie.orderid]#>";
+show 100 rows per page;
+hide pager both;
+#>
+<# start header #>
+<div>
+	<div class="secureHeader">
+		<div style="clear: both;"></div>
+	</div>
+</div>
+<table class="carttable">
+	<tr class="cartheaderrow">
+		<td width="10" class="cartheadercell"></td>
+		<td class="cartheadercell" colspan="2">Item</td>
+		<td class="cartheadercell" style="text-align: center;">Qty</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Price</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Tax</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Shipping</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Total</td>
+	</tr>
+<# end header #>
+<# start row #>
+	<tr class="cartrow">
+		<td width="10" style="padding-top: 3%;" class="cartrowcell">
+			<center>
+				<a href="/?page=store_delete_cart_item&cartid=<# cart.id #>&product_name=<# cart.product_name #>&orderid=<#[cookie.orderid]#>"><div class="delete">X</div></a>
+			</center>
+		</td>
+		<td width="50" class="cartrowcell">
+			<div class="imgcontainer">
+				<img src="<# cart.img #>" width="100%" style="box-shadow: 2px 2px 2px #CCC;border: 1px #CCC solid;"/>
+			</div>
+		</td>
+		<td class="cartrowcell">
+			<# cart.product_name #><br>
+			<span style="font-size: 9px;"><# cart.sku #></span>
+		</td>
+		<td class="cartrowcell"  style="text-align: center;"><# cart.qty #></td>
+		<td class="cartrowcell"  style="text-align: center;">$ <# cart.price #> </td>
+		<td class="cartrowcell"  style="text-align: center;">
+			<script>
+				/** tax **/
+				var subtotal = <# cart.qty #> * <# cart.price #>;
+				var tax = ((subtotal * <# cart.tax_rate #>) / 100).toFixed(2);
+				document.write( "<input type='text' class='tax' value='"+tax+"' style='display:none'>" );
+				document.write(tax);
+			</script>
+		</td>
+		<td class="cartrowcell"  style="text-align: center;">
+			<script>
+				/** shipping **/
+				var shipping = (Number(<# cart.shipping_charge #>)).toFixed(2);
+				document.write( "<input type='text' class='shipping' value='"+shipping+"' style='display:none'>" );
+				document.write(shipping);
+			</script>
+		</td>
+		<td class="cartrowcell"  style="text-align: center;">
+			$ 
+			<script>
+				/** total **/
+				var total = <# cart.qty #> * <# cart.price #>;
+				var tax = ((subtotal * <# cart.tax_rate #>) / 100).toFixed(2);
+				var shipping = <# cart.shipping_charge #>;
+				grand_total = (Number(total) + Number(tax) + Number(shipping));
+				document.write( "<input type='text' class='itemTotal' value='"+grand_total+"' style='display:none'>" );
+				document.write(Number(grand_total).toFixed(2));
+			</script>
+		</td>
+
+	</tr>
+
+<# end row #>
+<# start footer #>
+	<tr class="cartfooterrow">
+		<td colspan="5" class="cartfooterrowcell" style="background-color: #FFF;"></td>
+		<td class="cartfooterrowcell" style="background-color: #FFF;">
+			<input type="button" value="Clear Cart" style="width: 120px;display: none;" onclick="javascript: window.location='/?page=store_clear_cart&orderid=<#[cookie.orderid]#>';">
+		</td>
+		<td colspan="" class="cartfooterrowcell" >Tax</td>
+		<td colspan="" class="cartfooterrowcell" style="text-align: center;">
+			$
+			<input type="text" id="tbTax" value="" style="display:none">
+			<script type="text/javascript">
+				function UpdateTax()
+				{
+       				var oInputs = new Array();
+					var tax = 0;
+					var subject = 0;
+	     			oInputs = document.getElementsByClassName( 'tax' ); // store collection of all <input/> elements
+	    			for ( i = 0; i < oInputs.length; i++ )
+	     			{
+						subject = parseFloat(oInputs[i].value);
+	       				tax = subject + tax;
+	     			}
+					document.write(Number(tax).toFixed(2));
+					document.getElementById("tbTax").value = Number(tax).toFixed(2);
+				}
+				var runtax = UpdateTax();
+			</script>
+		</td>
+	</tr>
+	<tr class="cartfooterrow">
+		<td colspan="5" class="cartfooterrowcell" style="background-color: #FFF;"></td>
+		<td class="cartfooterrowcell" style="background-color: #FFF;">
+			<input type="button" value="Keep Shopping" style="width: 120px;" onclick="goBack()">
+		</td>
+		<td colspan="" class="cartfooterrowcell" >Shipping</td>
+		<td colspan="" class="cartfooterrowcell" style="text-align: center;">
+			$
+			<input type="text" id="tbShipping" value="" style="display:none">
+			<script type="text/javascript">
+				function UpdateShipping()
+				{
+       				var oInputs = new Array();
+					var shipping = 0;
+					var subject = 0;
+	     			oInputs = document.getElementsByClassName( 'shipping' ); // store collection of all <input/> elements
+	    			for ( i = 0; i < oInputs.length; i++ )
+	     			{
+						subject = parseFloat(oInputs[i].value);
+	       				shipping = subject + shipping;
+	     			}
+					document.write(Number(shipping).toFixed(2));
+					document.getElementById("tbShipping").value = Number(shipping).toFixed(2);
+				}
+				var runshipping = UpdateShipping();
+			</script>
+		</td>
+	</tr>
+	<tr class="cartfooterrow">
+		<td colspan="5" class="cartfooterrowcell" style="background-color: #FFF;"></td>
+		<td class="cartfooterrowcell" style="background-color: #FFF;">
+			<input type="button" value="Checkout" style="width: 120px;" onclick="checkout()">
+		</td>
+		<td class="cartfooterrowcell">Total </td>
+		<td class="cartfooterrowcell" style="text-align: center;">
+			$ 
+			<input type="text" id="tbTotal" value="" style="display:none">
+			<script type="text/javascript">
+				function UpdateTotal()
+				{
+	       			var oInputs = new Array();
+					var total = 0;
+					var subject = 0;
+		     		oInputs = document.getElementsByClassName( 'itemTotal' ); // store collection of all <input/> elements
+		    		for ( i = 0; i < oInputs.length; i++ )
+		     		{
+						subject = parseFloat(oInputs[i].value);
+		       			total = subject + total;
+		     		}
+					document.write(Number(total).toFixed(2));
+					document.getElementById("tbTotal").value = Number(total).toFixed(2);
+				}
+				var test = UpdateTotal();
+				function goBack()
+	  			{
+	  				window.location = "/?page=store";
+	  			}
+				function checkout()
+	  			{
+					var tbTotal = document.getElementById("tbTotal").value;
+					window.location = "https://<# system.domain #>/?page=store_shipping";
+	  			}
+			</script>
+		</td>
+	</tr>
+</table>
+<div style="text-align: right;width: 99%;">
+	
+</div>
+<br>
+<font color="white">OrderID <#[cookie.orderid]#></font>
+<br>
+<br>
+<br>
+&nbsp;
+<# end footer #>
+<# no results #>
+<center>&nbsp;<br>
+<div style="width: 95%:padding: 10px;margin-left: auto;margin-right: auto;margin-top: 10%;text-align: center;margin-bottom: 40px;">
+	<span>
+		You have no items in your cart at this time.<br> Click the "Keep Shopping" button to add items into your cart.
+	</span>
+</div>	
+<input type="button" value="Keep Shopping" class="cartbutton" onclick="goBack()">
+</center>
+<font color="white">OrderID <#[cookie.orderid]#></font>
+
+<style>
+.cartheadercell {display:none}
+</style>
+
+ <# end no results #>
+<# end list #>
+</td></tr></table>
+<div style="clear: both;"></div>
+</div>
+<# include "_htmlfooter.espx" #>
+

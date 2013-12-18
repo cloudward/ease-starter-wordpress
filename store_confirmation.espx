@@ -1,0 +1,205 @@
+
+<# include "_htmlheader.espx" #>
+<br>
+<center>
+<table width="600">
+	<tr>
+		<td>
+			
+<h3>Order Complete</h3>
+<style>
+.cartheadercell {
+	border-bottom: 1px dotted #000000;
+//	text-decoration:underline;
+}
+.cartfooterrowcell {
+	border-top: 1px dotted #000000;
+//	text-decoration:underline;
+}
+</style>
+
+<# apply orders.<#[url.oid]#> as "order".#>
+
+<# apply webuser.61e4c67057c8a3df76286ab89fca716a as "webuser" .#>
+
+<# if ("<#[webstyle.notification_site_email]#>" == ""){
+	set webstyle.notification_site_email to "<#[webuser.email]#>";
+}
+#>
+
+<# if ("<#[webstyle.notification_comments]#>" == ""){
+	set webstyle.notification_store_purchase to "<#[webuser.email]#>";
+}
+#>
+
+<# if ( "<#[cookie.orderid]#>" == "<#[order.id]#>" ) {
+	send email;
+		from_name = "<#[webstyle.notification_site_email]#>";
+		to = "<#[order.shipping_email]#>";
+		cc = "<#[webstyle.notification_store_purchase]#>";
+		subject = "Purchase Details";
+		type = "html"; // text or html
+		bodypage = "email_notification_sale?oid=<#[cookie.orderid]#>";
+}
+#>
+
+<table width="600">
+	<tr>
+		<td colspan="2"  class="cartheadercell"></td>
+	</tr>
+	<tr>
+		<td>Order Date:</td>
+		<td><#[order.created_on]#></td>
+	</tr>
+	<tr>
+		<td>Order ID:</td>
+		<td><#[order.id]#></td>
+	</tr>
+	<tr>
+		<td>Order Total: </td>
+		<td>$ <#[order.ordertotal]#></td>
+	</tr>
+	<tr>
+		<td colspan="2"  class="cartfooterrowcell"></td>
+	</tr>
+</table>
+<h3>Deliver To:</h3>
+<table width="600">
+	<tr>
+		<td colspan="2"  class="cartheadercell"></td>
+	</tr>
+
+	<tr>
+		<td>Attention:</td>
+		<td><#[order.shipping_to]#></td>
+	</tr>
+	<tr>
+		<td valign="top">Address:</td>
+		<td> <#[order.shipping_address1]#> <#[order.shipping_address2]#><br>
+<#[order.shipping_city]#>, 
+<#[order.shipping_state]#>
+<#[order.shipping_zip]#>
+		</td>
+	</tr>
+	<tr>
+		<td>Phone</td>
+		<td><#[order.shipping_phone]#></td>
+	</tr>
+	<tr>
+		<td>Email</td>
+		<td><#[order.shipping_email]#></td>
+	</tr>
+	<tr>
+		<td colspan="2"  class="cartfooterrowcell"></td>
+	</tr>
+</table>
+
+
+<h3>Items Ordered:</h3>
+
+<# start list for cart;
+include when cart.orderid == "<#[url.oid]#>";
+show 100 rows per page;
+hide pager both;
+#>
+<# start header #>
+<table width="600">
+	<tr>
+		<td class="cartheadercell2">Qty</td>
+		<td class="cartheadercell2">Item</td>
+		<td class="cartheadercell2">Price</td>
+		<td class="cartheadercell2">Tax</td>
+		<td class="cartheadercell2">Shipping</td>
+		<td class="cartheadercell2">Total</td>
+	</tr>
+<# end header #>
+<# start row #>
+	<tr>
+		<td><# cart.qty #></td>
+		<td><# cart.product_name #></td>
+		<td>$ <# cart.price #> </td>
+		<td > $ 
+			<script>
+				/** tax **/
+				var subtotal = <# cart.qty #> * <# cart.price #>;
+				var tax = ((subtotal * <# cart.tax_rate #>) / 100).toFixed(2);
+				document.write( "<input type='text' class='tax' value='"+tax+"' style='display:none'>" );
+				document.write(tax);
+			</script>
+		</td>
+		<td>
+			<script>
+				/** shipping **/
+				var shipping = (Number(<# cart.shipping_charge #>)).toFixed(2);
+				document.write( "<input type='text' class='tax' value='"+shipping+"' style='display:none'>" );
+				document.write(shipping);
+			</script>
+		</td>
+		<td > $ 
+			<script>
+				/** total **/
+				var total = <# cart.qty #> * <# cart.price #>;
+				var tax = ((subtotal * <# cart.tax_rate #>) / 100).toFixed(2);
+				var shipping = <# cart.shipping_charge #>;
+				grand_total = (Number(total) + Number(tax) + Number(shipping));
+				document.write( "<input type='text' class='itemTotal' value='"+grand_total+"' style='display:none'>" );
+				document.write(Number(grand_total).toFixed(2));
+			</script>
+		</td>
+	</tr>
+
+<# end row #>
+<# start footer #>
+	<tr>
+		<td class="cartfooterrowcell"></td>
+		<td class="cartfooterrowcell">Total</td>
+		<td class="cartfooterrowcell"></td>
+		<td colspan="3" class="cartfooterrowcell">$ 
+			<input type="text" id="tbTotal" value="" style="display:none">
+<script type="text/javascript">
+	function UpdateTotal()
+	{
+	       var oInputs = new Array();
+			var total = 0;
+			var subject = 0;
+		     oInputs = document.getElementsByClassName( 'itemTotal' ); // store collection of all <input/> elements
+		    for ( i = 0; i < oInputs.length; i++ )
+		     {
+				subject = parseFloat(oInputs[i].value);
+			//	alert(subject);
+		       	total = subject + total;
+		     }
+				document.write(total);
+			document.getElementById("tbTotal").value = total;
+	}
+	var test = UpdateTotal();
+	function goBack()
+	  {
+	  window.history.back()
+	  }
+	function checkout()
+	  {
+		var tbTotal = document.getElementById("tbTotal").value;
+		window.location = "/?page=store_shipping";
+	  }
+</script>
+	</td>
+	</tr>
+</table>
+<# end footer #>
+<# no results #> <# end no results #>
+<# end list #>
+<br>
+<br>
+<br>&nbsp;
+
+<# 
+set cookie.orderid to "";
+// kills cookie for orderid
+#>
+
+</td></tr></table>
+</center>
+<# include "_htmlfooter.espx" #>
+
+

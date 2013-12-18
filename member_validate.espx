@@ -1,0 +1,40 @@
+<# include "_htmlheader.espx" #>
+
+<# apply webuser.<#[url.mid]#> as "mid" .#>
+<center>
+<div style="width: 94%; background-color: #FFFFFF; border: 1px solid #CCCCCC; border-radius: 3px; box-shadow: 2px 2px 2px #999999; font-family: Arial,Helvetica,sans-serif; margin-left: auto; margin-right: auto; margin-top: 10px; min-height: 250px; padding: 10px;">
+
+
+<# if ("<#[mid.member_level]#>" == "<#[easvault.basic_label]#>") {
+	
+	set cookie.price to "<#[easvault.basic_cost]#>";
+	set cookie.sku to "<#[easvault.basic_label]#>";
+} else {
+	set cookie.price to "<#[easvault.premium_cost]#>";
+	set cookie.sku to "<#[easvault.premium_label]#>";
+}
+#>
+
+<h2 class="wp_hide">Email Address Validated</h2>
+
+<p style="font-size: 14px;">Thank you!</p>
+
+<p style="font-size: 14px;"><a href="https://<# system.domain #>/?page=member_payment&mid=<#[url.mid]#>">Click here</a> to complete your signup.</p>
+
+<#
+	set cookie.first to "<#[mid.first]#>";
+	set cookie.last to "<#[mid.last]#>";
+	set cookie.email to "<#[mid.email]#>";
+	set cookie.cid to "<#[mid.id]#>";
+	set cookie.company to "<#[mid.company]#>";
+#>
+</div>
+</center>
+
+<style>
+.emailsignup {display:none}
+</style>
+
+
+<# include "_htmlfooter.espx" #>
+

@@ -1,0 +1,117 @@
+<# include "_authentication_admin.espx" #>
+<# include "_htmlheader.espx" #>
+
+<# include "_admin_menu.espx" #>
+
+<script>
+
+jQuery(document).ready(function(){
+	$.getJSON('https://billing.cloudward.com/web_services/billing/?callback=?',{masterAccountId: '<#[easvault.marketplace_id]#>', apiPassword: "<#[easvault.merchant_password]#>", contactid: "<#[webuser.billing_cid]#>", request: "accountStatus"},function(res){
+
+		var testMode = res[0];
+		var testApproved = res[1];
+		if(testApproved == "true" && testMode == "off"){
+			// do nothing 
+				$('#testCaseLabel').append("Test Mode<br><span style='font-size: 9px;'>(This will make all transaction test type transactions)</span><br>"); 
+				$('#testCaseForm').append("<select id='testCase' name='testCase' onchange='javascript: toggleTestMode();'><option value='Off'>Off</option><option value='on'>On</option></select>");
+		 }else{	
+			if(testMode == "on" && (testApproved == "" || testApproved == "false")){ 
+				$('#testCaseStatus').append("<font size='2' face='Verdana' style='font-weight: bold;color: red;'>Your account is pending approval and is in Test Mode</font><br>"); 
+				$('#testCaseLabel').append("Test Mode<br><span style='font-size: 9px;'>(This will make all transaction test type transactions)</span><br>"); 
+				$('#testCaseForm').append("<select id='testCase' name='testCase' onchange='javascript: toggleTestMode();'><option value='on'>On</option></select>"); 
+			}else if(testMode == "on" && testApproved == "true"){
+				$('#testCaseLabel').append("Test Mode<br><span style='font-size: 9px;'>(This will make all transaction test type transactions)</span><br>"); 
+				$('#testCaseForm').append("<select id='testCase' name='testCase' onchange='javascript: toggleTestMode();'><option value='on'>On</option><option value='Off'>Off</option></select>");
+			}else{
+				$('#testCaseLabel').append("Test Mode<br><span style='font-size: 9px;'>(This will make all transaction test type transactions)</span><br>"); 
+				$('#testCaseForm').append("<select id='testCase' name='testCase' onchange='javascript: toggleTestMode();'><option value='Off'>Off</option><option value='on'>On</option></select>");
+			}
+		}
+	});
+
+});
+</script>
+
+<# start form for eas_vault <#[easvault.id]#>; 
+when creating set eas_vault.gappsetupdone to "true"; 
+when creating set eas_vault.id to "9a7ac1363ff31893fc4047a4f5224f48";
+when creating redirect to "/?page=admin_wizard_billing_ids&edit=9a7ac1363ff31893fc4047a4f5224f48";
+when updating redirect to "/?page=admin_wizard_billing_ids&edit=9a7ac1363ff31893fc4047a4f5224f48";
+when deleting redirect to "/?page=admin_wizard_billing_ids&edit=9a7ac1363ff31893fc4047a4f5224f48";
+#>
+<style>
+	.divSpacer{margin-top: 5px;margin-bottom: 15px;}
+	.instructions{font-size: 10px;margin-top: 10px;margin-bottom: 15px;}
+</style>
+<div id="otherformelements"> 
+		<p style="font-weight: bold;margin-top: 10px;">Cloudward Billing Credentials</p>
+		<div class="instructions" style="width: 65%;float: left;">
+			These are the ID's needed to integrate with your Cloudward Billing solution.<br>
+			Please enter the required ID's into the corresponding fields below and click the save button 
+		</div>
+		<div style="width: 100%;float: left;">
+		<div class="divSpacer">
+			<div class="label" id="testCaseLabel">
+				
+			</div>
+			<div class="formElem" id="testCaseForm">
+
+			</div>
+		</div>
+		<div class="divSpacer">
+			<div class="label">
+				Master Account ID<br><span style="font-size: 9px;">(Enter your Cloudward Master Account ID Here)</span><br>
+			</div>
+			<div class="formElem">
+				<input type="text" style="width:300px;height:18px;font-size:14px"  <# eas_vault.marketplace_id #> >
+			</div>
+		</div>	
+		<div class="local divSpacer">
+			<div class="label">
+				API Password<br><span style="font-size: 9px;">(Enter your Cloudward API Password here)</span><br>
+			</div>
+			<div class="formElem">
+				<input type="text" style="width:300px;height:18px;font-size:14px"  <# eas_vault.merchant_password #> >
+			</div>
+		</div>
+		<div class="divSpacer">
+			<div class="label">
+				API Key<br><span style="font-size: 9px;">(Enter your Cloudward API Key here)</span><br>
+			</div>
+			<div class="formElem">
+				<input type="password" style="width:300px;height:18px;font-size:14px"  <# eas_vault.merchant_token #> >
+			</div>
+		</div>
+		<div class="live divSpacer">
+			<div class="label">
+				API Redirect URL<br><span style="font-size: 9px;">(Enter the URL to redirect to after submitting payment form)</span><br>
+			</div>
+			<div class="formElem">
+				<input type="text" style="width:650px;height:18px;font-size:14px" value="https://<# system.domain #>"  <# eas_vault.merchant_gateway_url #> >
+			</div>
+		</div>
+		
+		<input type="button" value="Save" <# create button #> >
+		<input type="button" value="Update" <# update button #> >
+		</div>
+	</p>
+</div>
+<# end form #>
+<script>
+	
+function toggleTestMode(){
+	var testVal = $('#testCase').val();
+	$.getJSON('https://billing.cloudward.com/web_services/billing/?callback=?',{masterAccountId: '<#[easvault.marketplace_id]#>', apiPassword: "<#[easvault.merchant_password]#>", testMode: testVal, contactid: "<#[webuser.billing_cid]#>", request: "toggleTestMode"},function(res){
+		// Iterate the payment methods first.
+		if($.isEmptyObject(res)){
+			// do nothing
+		}else{
+
+		}
+	});
+}
+</script>
+
+<# include "_admin_footer.espx" #>
+
+<# include "_htmlfooter.espx" #>

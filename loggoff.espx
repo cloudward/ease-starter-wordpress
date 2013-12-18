@@ -1,0 +1,20 @@
+<# if ("<#[url.goto]#>" != "") {
+	set session.keypassn to "";
+	set session.memberkey to "";
+	set cookie.first to "";
+	set cookie.last to "";
+	set cookie.email to "";
+	set cookie.company to "";
+	set cookie.cid to "";
+	redirect to "/?page=<#[url.goto]#>";
+} else {
+	set session.keypassn to "";
+	set session.memberkey to "";
+	set cookie.first to "";
+	set cookie.last to "";
+	set cookie.email to "";
+	set cookie.company to "";
+	set cookie.cid to "";
+	redirect to "/?page=logged_off";
+}
+#>

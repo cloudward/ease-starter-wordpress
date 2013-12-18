@@ -1,0 +1,120 @@
+<# include "_authentication_admin.espx" #>
+<head>
+ <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+ <META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+	<script src="/javascripts/jquery.js" type="text/javascript"></script>
+	<script src="/javascripts/jquery_ui.js" type="text/javascript"></script>
+	<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script> 
+	<link href="/stylesheets/jquery_ui_style.css" rel="stylesheet" type="text/css">
+</head>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+<# if ( "<#[system.core]#>" != "PHP" ){
+	redirect to "/?page=admin #>";
+}
+#>
+
+<div align="center">
+       <div class="alert alert-info"><span class="glyphicon glyphicon-upload"></span> Please wait while we create and save your spreadsheets for your site... do not leave this page, you will be redirected automatically.  (This can take a few minutes).  If you feel you are stuck on a step, go to <a target="_blank" href="/?page=admin_support">Admin Support</a> and submit a request
+       <br>
+       <span id="notifications_status"></span>
+	      <span id="general_status"></span>
+	      <br><br>
+	      <div class="container">
+	      <div class="progress">
+		<div class="progress-bar" id="progress_bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">
+		  <span class="sr-only"></span>
+		</div>
+	      </div>
+		     
+	      </div>
+       </div>
+
+
+
+
+</div>
+
+
+
+<script type="text/javascript">
+        var steps = 0;
+	var total_steps = 8;
+	app_id = "My Test App";
+	var i = 0;
+       var sheets = new Array();
+       sheets[0] = "store";
+       sheets[1] = "store1";
+       sheets[2] = "orders";
+       sheets[3] = "email";
+       sheets[4] = "contact";
+       sheets[5] = "suggestions";
+       sheets[6] = "surveys";
+       
+	jQuery( document ).ready(function() {
+	      jQuery("#notifications_status").html("Creating store spreadsheet...");
+	      createSheet(sheets[i]);
+	});
+	
+	function createSheetTimeout(sheet_name){
+	      this_timeout = setTimeout(function(){createSheet(sheet_name);}, 5000);   
+	}
+	
+	function setNotifications(notification_email){
+	      if(notification_email){
+		     jQuery.ajax({
+			 type: 'POST',
+			 dataType: 'html',
+			 url: '/?page=admin_wizard_spreadsheet_auto_create&type=notifications&email=' + notification_email,
+			 async: false,
+			 success: function (data) {
+			    jQuery("#notifications_status").html("Finished saving notifications");
+			    // MyNamespace.myFunction(data); //DO ANY PROCESS HERE
+			     //console.log(data);
+			 }
+		     });
+	      }
+	}
+	
+	function createSheet(sheet_type){
+	      steps += 1;
+	      jQuery("#progress_bar").css("width",((steps/total_steps)*100) + "%");
+	      
+	      if(sheet_type != "finished"){
+		     jQuery("#notifications_status").html("Step " + steps + " of " + total_steps + " - Creating " + sheet_type + " spreadsheet...");
+	      }
+            jQuery.ajax({
+                type: 'POST',
+                dataType: 'html',
+                url: '/?page=admin_wizard_spreadsheet_auto_create&type=' + sheet_type,
+                success: function (data) {
+	           if(sheet_type != "surveys"){
+			    i=i+1;
+			    createSheet(sheets[i]);
+			    // MyNamespace.myFunction(data); //DO ANY PROCESS HERE
+			    //console.log(data);
+		  }else{
+		     steps += 1;
+		     jQuery("#notifications_status").html("Finished, now saving spreadsheet ids and notification email addresses, you will be redirected shortly");
+		     			  jQuery.ajax({
+			      type: 'POST',
+			      dataType: 'html',
+			      url: '/?page=admin_wizard_spreadsheet_auto_save',
+			      async: false,
+			      success: function (data) {
+				 //jQuery("#general_status").html("Finished saving  + " spreadsheet...");
+				 // MyNamespace.myFunction(data); //DO ANY PROCESS HERE
+				  //console.log(data);
+				  window.location = "/?page=admin_content_list";
+				  
+			      }
+			  });
+		  }
+		}
+            });
+	}
+</script>
+
+
+
+<# include "_admin_footer.espx" #>

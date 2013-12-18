@@ -1,0 +1,49 @@
+<# include "_authentication_members.espx" #>
+
+<# include "_htmlheader.espx" #>
+
+<# apply webuser.61e4c67057c8a3df76286ab89fca716a as "webuser" .#>
+
+<# apply webuser.<#[url.mid]#> as "member" .#>
+
+<# 
+	update record for "webuser.<#[url.mid]#>" reference as "member";
+	set member.status to "active";
+#>
+
+
+<# if ("<#[webstyle.notification_site_email]#>" == ""){
+	set webstyle.notification_site_email to "<#[webuser.email]#>";
+}
+#>
+
+<# if ("<#[webstyle.notification_comments]#>" == ""){
+	set webstyle.notification_store_purchase to "<#[webuser.email]#>";
+}
+#>
+
+<# if ( "<#[url.mid]#>" <> "" ) {
+	send email;
+		from_name = "<#[webstyle.notification_site_email]#>";
+		to = "<#[member.email]#>";
+		subject = "Membership Charge";
+		type = "html"; // text or html
+		bodypage = "email_member_charge?mid=<#[url.mid]#>";
+}
+#>
+
+
+<center>
+<div style="width: 94%; background-color: #FFFFFF; border: 1px solid #CCCCCC; border-radius: 3px; box-shadow: 2px 2px 2px #999999; font-family: Arial,Helvetica,sans-serif; margin-left: auto; margin-right: auto; margin-top: 10px; min-height: 250px; padding: 10px;">
+	<h2 class="wp_hide">Membership Approved</h2>
+
+	<p style="font-size: 12px;">We sent an email to <#[member.email]#> with details about your membership.</p><br>
+	<p style="font-size: 12px;">Membership Charge: $<#[cookie.price]#></p><br>
+	<p style="font-size: 12px;">We appreciate you joining us here at <# system.domain #></p><br>
+	<p style="font-size: 12px;"><a href="/?page=member_update_billing_id&mid=<#[cookie.cid]#>&contact_id=<#[url.contact_id]#>">[Click here to enter the member site.]</a></p><br><br>
+</div>
+</center>
+
+<# include "_member_footer.espx" #>
+
+<# include "_htmlfooter.espx" #>

@@ -1,0 +1,303 @@
+<# include "_htmlheader.espx" #>
+
+<center>
+<# apply webuser.<#[url.mid]#> as "mid" .#>
+
+<h3 class="wp_hide">Enter Payment Information</h3>
+<div style="width: 80%; background-color: #FFFFFF; border: 1px solid #CCCCCC; border-radius: 3px; box-shadow: 2px 2px 2px #999999; font-family: Arial,Helvetica,sans-serif; margin-left: auto; margin-right: auto; margin-top: 10px; min-height: 250px; padding: 10px;">
+
+<script>
+	//deprecated
+	function next()
+	  {
+		window.location = "/?page=store_addordertogoogle&oid=<#[cookie.orderid]#>";
+	  }
+
+	jQuery(document).ready(function(){
+		$.getJSON('https://billing.cloudward.com/web_services/billing/?callback=?',{masterAccountId: '<#[easvault.marketplace_id]#>', apiPassword: "<#[easvault.merchant_password]#>", contactid: "<#[webuser.billing_cid]#>", request: "accountStatus"},function(res){
+			if($.isEmptyObject(res)){
+				// do nothing
+			 }else{	
+				var testMode = res[0];
+				var testApproved = res[1];
+				if(testMode == "on"){ 
+					$('#testCaseStatus').append("<font size='2' face='Verdana' style='font-weight: bold;color: red;'>Your account is pending approval and is in Test Mode</font><br><span style='font-size: 9px;'>The test transaction type drop down will not be shown after your account is completely approved and test mode is turned off.</span>"); 
+					$('#testCaseLabel').append("<font size='2' face='Verdana'>Test Transaction Type:</font>"); 
+					$('#testCaseForm').append("<select id='testCase' name='testCase'><option value='Approved'>Approved</option><option value='Declined'>Declined</option><option value='Error'>Error</option></select>"); 
+				}
+			}
+		});
+
+	});
+</script>
+
+<# if ("<#[url.msg]#>" == "declined") {
+	
+	<div style="width: 90%;margin-left: auto;margin-right: auto;color: red:">Your transaction was declined... Please check your information and try again or try another payment method.</div>
+} else {
+	
+	<!-- no message -->
+}
+#>
+
+<# start list for webuser;
+
+include when webuser.id == "<#[cookie.cid]#>";
+hide pager both;
+show 100 rows per page;
+
+#>
+<# start header #>
+<div style="width: 100%;" id="chargeForm">
+<form name="cloudBillingForm" id="cloudBillingForm" action="https://billing.cloudward.com/web_services/billing/" method="post" autocomplete="off">
+	<input type="hidden" name="submit" value="1">
+	<input type="hidden" name="cid" value="<#[cookie.cid]#>">
+	<input type="hidden" name="master_account_id" value="<#[easvault.marketplace_id]#>">
+	<input type="hidden" name="api_password" value="<#[easvault.merchant_password]#>">
+	<input type="hidden" name="action" value="billing_form">
+	<input type="hidden" name="return_url" id="return_url" value='http://<# system.domain #>/'>
+	<input type="hidden" name="return_page" id="return_page" value='member_payment_listener'>
+	<input type="hidden" name="invoice" value="<#[cookie.cid]#>">
+	<input type="hidden" name="order_id" value="<#[cookie.cid]#>">
+	<input type="hidden" name="orderTotal" value="<#[cookie.price]#>">
+	<input type="hidden" name="orderTax" value="">
+	<input type="hidden" name="email" value="<#[cookie.email]#>">
+	<input type="hidden" name="shipping_phone" value="<# webuser.phone #>">
+
+<# end header #>
+
+<# start row #>
+
+	<input type="hidden" name="item[<# rownumber #>][qty]" value="1">
+	<input type="hidden" name="item[<# rownumber #>][description]" value="<#[cookie.sku]#>">
+	<input type="hidden" name="item[<# rownumber #>][price]" value="<#[cookie.price]#>">
+	<input type='hidden' name='item[<# rownumber #>][tax]' class='tax' value="0">
+	<input type='hidden' name='item[<#rownumber #>][shipping]' class='shipping' value="0">
+	<input type="hidden" name="item[<# rownumber #>][frequency]" value="Monthly">
+	<input type="hidden" name="item[<# rownumber #>][chargeType]" value="charge">
+
+<# end row #>
+
+<# start footer #>
+
+<div align="center">
+	<table border="0" width="100%" cellpadding="4" cellspacing="0" style="border: 1px #CCC solid;">
+		<tr class="chargeHeader">
+			<td>Billing/Payment Info</td>
+		</tr>
+		<tr>
+			<td class="chargeForm" style="text-align: center;">
+				<img border="0" src="/images/visa.gif" width="44" height="28" hspace="3">			
+				<img border="0" src="/images/mastercard.gif" width="44" height="28" hspace="3">			
+				<img border="0" src="/images/amex.gif" width="44" height="28" hspace="3">			
+				<img border="0" src="/images/discover.gif" width="44" height="28" hspace="3">									
+			</td>
+		</tr>
+		<tr>
+			<td id="testCaseStatus" class="chargeForm"></td>
+		</tr>
+		<tr>
+			<td id="testCaseForm" class="chargeForm"></td>
+		</tr>
+		<tr>
+			<td id="savedCardsForm" class="chargeForm"></td>
+		</tr>
+		<tr class="tForm">	
+			<td class="chargeForm">
+				<font size="2" face="Verdana">Card Type:</font><br>
+				<select size="1" name="payment_type">
+					<option value="Visa">Visa</option>				
+					<option value="MasterCard">MasterCard</option>				
+					<option value="American Express">American Express</option>				
+					<option value="Discover">Discover</option>												
+				</select>
+			</td>
+		</tr>
+		<tr class="tForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">Name as on Card:</font><br>
+				<input type="text" name="name" value="">
+			</td>
+		</tr>
+		<tr class="tForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">Address:</font><br>
+				<input type="text" name="address" value="">
+			</td>
+		</tr>
+		<tr class="tForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">Address2:</font><br>
+				<input type="text" name="address2" value="">
+			</td>
+		</tr>
+		<tr class="tForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">City:</font><br>
+				<input type="text" name="city" value="">
+			</td>
+		</tr>
+		<tr class="tForm" class="chargeForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">State:</font><br>
+				<select name="state" size="1">
+					<option value="" >Select</option>
+					<option value="WA">Washington</option>
+					<option value="AL">Alabama</option>
+					<option value="AK">Alaska</option>
+					<option value="AB">Alberta</option>
+					<option value="AZ">Arizona</option>
+					<option value="AR">Arkansas</option>
+					<option value="BC">British Columbia</option>
+					<option value="CA">California</option>
+					<option value="CO">Colorado</option>
+					<option value="CT">Connecticut</option>
+					<option value="DE">Delaware</option>
+					<option value="DC">DistrictOfColumbia</option>
+					<option value="FL">Florida</option>
+					<option value="GA">Georgia</option>
+					<option value="HI">Hawaii</option>
+					<option value="ID">Idaho</option>
+					<option value="IL">Illinois</option>
+					<option value="IN">Indiana</option>
+					<option value="IA">Iowa</option>
+					<option value="KS">Kansas</option>
+					<option value="KY">Kentucky</option>
+					<option value="LA">Louisiana</option>
+					<option value="ME">Maine</option>
+					<option value="MB">Manitoba</option>
+					<option value="MD">Maryland</option>
+					<option value="MA">Massachusetts</option>
+					<option value="MI">Michigan</option>
+					<option value="MN">Minnesota</option>
+					<option value="MS">Mississippi</option>
+					<option value="MO">Missouri</option>
+					<option value="MT">Montana</option>
+					<option value="NE">Nebraska</option>
+					<option value="NV">Nevada</option>
+					<option value="NB">New Brunswick</option>
+					<option value="NH">New Hampshire</option>
+					<option value="NJ">New Jersey</option>
+					<option value="NM">New Mexico</option>
+					<option value="NY">New York</option>
+					<option value="NL">Newfoundland/Labrador</option>
+					<option value="NC">North Carolina</option>
+					<option value="ND">North Dakota</option>
+					<option value="NT">NorthwestTerritories</option>
+					<option value="NS">Nova Scotia</option>
+					<option value="NU">Nunavut</option>
+					<option value="OH">Ohio</option>
+					<option value="OK">Oklahoma</option>
+					<option value="ON">Ontario</option>
+					<option value="OR">Oregon</option>
+					<option value="PA">Pennsylvania</option>
+					<option value="PE">PrinceEdwardIsland</option>
+					<option value="PR">Puerto Rico</option>
+					<option value="QC">Quebec</option>
+					<option value="RI">Rhode Island</option>
+					<option value="SK">Saskatchewan</option>
+					<option value="SC">South Carolina</option>
+					<option value="SD">South Dakota</option>
+					<option value="TN">Tennessee</option>
+					<option value="TX">Texas</option>
+					<option value="UT">Utah</option>
+					<option value="VT">Vermont</option>
+					<option value="VA">Virginia</option>
+					<option value="WA">Washington</option>
+					<option value="WV">West Virginia</option>
+					<option value="WI">Wisconsin</option>
+					<option value="WY">Wyoming</option>
+					<option value="YT">Yukon</option>
+				</select>
+			</td>
+		</tr>
+		<tr class="tForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">Zipcode:</font><br>
+				<input type="text" name="zip" value="">
+			</td>
+		</tr>
+		<tr class="tForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">Card Number:</font><br>
+				<input type="text" name="card">
+			</td>
+		</tr>
+		<tr class="tForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">Expiration: </font><br>
+				<span style="font-size: 8px;">(MMYY)</span><br>
+				<input type="text" name="exp" style="width: 50px;">
+			</td>
+		</tr>
+		<tr class="tForm">
+			<td class="chargeForm">
+				<font face="Verdana" size="2">
+					CVV <br>
+					<span style="font-size: 8px;">(Three digit number on back of card)</span><br>
+				</font>
+				<input type="text" name="cvv2" style="width: 50px;">
+			</td>
+		</tr>
+		<tr>
+			<td class="chargeForm">
+				<p align="right" class="store_charge_buttons">
+					<input type="submit" name="submitbutton" value="Process Payment">
+				</p>
+			</td>
+		</tr>
+	</table>
+</div>
+</form>
+</div>
+
+<# end footer #>
+
+<# no results #>
+<b>No records Found</b><br>
+<# end no results #>
+
+<# end list #>
+
+</div>
+
+</center>
+<style>
+.emailsignup {display:none}
+</style>
+
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	$.getJSON('https://billing.cloudward.com/web_services/users/?callback=?',{masterAccountId: '<#[easvault.marketplace_id]#>', apiPassword: "<#[easvault.merchant_password]#>", contactid: "<#[webuser.billing_cid]#>", request: "paymentMethods"},function(res){
+
+		// Iterate the payment methods first.
+		if($.isEmptyObject(res)){
+			// do nothing
+		 }else{
+
+			// populate DOM objects
+			$('#savedCardsLabel').append("<font size='2' face='Verdana'>Saved Cards:</font>");
+			$('#savedCardsForm').append("<select size='1' id='payment_method' name='payment_method' onchange='javascript: toggleForm(this.value);'>");
+				$('#payment_method').append("<option value=''>Select Previous Payment Method</option>");
+			$.each(res, function(index, value){
+				$('#payment_method').append("<option value='"+res[index].instance_id+"'>"+res[index].name+"</option>");
+			});
+			$('#savedCardsForm').append("</select>");
+			
+		}
+	});
+});
+
+
+function toggleForm(val){
+	if(val == ""){
+		$('.tForm').show();
+	}else{
+		$('.tForm').hide();
+	}
+}
+</script>
+
+<# include "_htmlfooter.espx" #>
+

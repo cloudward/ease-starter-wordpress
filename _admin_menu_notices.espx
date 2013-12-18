@@ -1,0 +1,15 @@
+
+    <script type="text/javascript">
+    //jQuery("ul.admin_sub_menu").find("a").attr('href').each(function(){
+    //    console.log(this.href);
+    //});
+    
+    jQuery('ul.admin_sub_menu')
+    .find('a[href]')  // only target <a>s which have a href attribute
+        .each(function() {
+            if(this.href.indexOf("page=google_global") >= 0){
+                // hides the list item for the google global item.  Since these items are all set in the backend with no way to change them, we don't need them
+                jQuery(this).parent().hide();
+            }
+        });
+    </script>

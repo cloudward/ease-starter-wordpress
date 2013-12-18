@@ -1,0 +1,122 @@
+<# include "_htmlheader.espx" #>
+
+
+<center>
+<div class="signupContainer">
+
+<span class="wp_hide"><h2>New Member Signup</h2></span>	
+
+<# start form for webuser <#[url.edit]#>; 
+when creating set webuser.status to "new_request"; 
+when creating set webuser.type to "members"; 
+when creating set webuser.source to "websignup";
+when creating set webuser.billing_cid to ""; 
+when creating redirect to "/?page=member_signup_confirm_email&mid=<# form.id #>";
+#> 
+<table class="signuptable" cellpadding="10">
+	<tr class="signupHeader">
+		<td colspan="2" class="signupHeaderCell">Members Signup</td>
+	</tr>
+	<tr class="signuprow">
+		<td valign="top" style="border-right: 1px #CCC dotted;">
+			<table>
+				<tr>
+					<td class="logincell">
+						<span class="easelabel">First</span><br>
+						<input type="text" style="width:200px" <# webuser.first #> >
+					</td>
+				</tr>
+				<tr>
+					<td class="logincell">
+						<span class="easelabel">Last<br>
+						<input type="text" style="width:200px" <# webuser.last #> >
+					</td>
+				</tr>
+				<tr>
+					<td class="logincell">
+						<span class="easelabel">Company<br>
+						<input type="text" style="width:200px" <# webuser.company #> >
+					</td>
+				</tr>
+				<tr>
+					<td class="logincell">
+						<span class="easelabel">Email<br>
+						<input type="text" style="width:200px" <# webuser.email #> >
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td valign="top">
+			<table>
+				<tr>
+					<td class="logincell">
+						<span class="easelabel">Phone</span><br>
+						<input type="text" style="width:200px" <# webuser.phone #> >
+					</td>
+				</tr>
+				<tr>
+					<td class="logincell">
+						<span class="easelabel">Username</span><br>
+						<input type="text" style="width:200px" <# webuser.username #> >
+					</td>
+				</tr>
+				<tr>
+					<td class="logincell">
+						<span class="easelabel">Password</span><br>
+						<input type="password" style="width:200px" <# webuser.password #> >
+						<input type="hidden" style="width:200px" <# webuser.address #> >
+						<input type="hidden" style="width:200px" <# webuser.address2 #> >
+						<input type="hidden" style="width:200px" <# webuser.city #> >
+						<input type="hidden" style="width:200px" <# webuser.state #> >
+						<input type="hidden" style="width:200px" <# webuser.zip #> >
+						<input type="hidden" style="width:200px" <# webuser.country #> > 
+						
+					</td>
+				</tr>
+				<tr>
+					<td class="logincell">
+						<input type="checkbox" value="Yes" <# webuser.memberdirectory #> >
+						<span class="easelabel">Show in Member Directory</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="logincell">
+						<span class="easelabel">Select Member Level:</span><br>
+						<select <# webuser.member_level #> >
+							<# if ("<#[easvault.free_label_checkbox]#>" == "Yes") {
+								<option value="<#[easvault.free_label]#>" ><#[easvault.free_label]#></option>
+							}
+							#>
+							<# if ("<#[easvault.basic_label_checkbox]#>" == "Yes") {
+								<option value="<#[easvault.basic_label]#>" ><#[easvault.basic_label]#> ($ <#[easvault.basic_cost]#> )</option>
+							}
+							#>
+							<# if ("<#[easvault.premium_label_checkbox]#>" == "Yes") {
+								<option value="<#[easvault.premium_label]#>" ><#[easvault.premium_label]#> ($ <#[easvault.premium_cost]#> )</option>
+							}
+							#>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr class="signuprow">
+		<td colspan="2" class="signupbuttonrow">
+			<input type="button" value="Submit" <# create button #> >
+			<input type="button" value="Submit" <# update button #> >
+		</td>
+	</tr>
+</table>
+
+<# end form #> 
+</div>
+
+</center>
+<style>
+.emailsignup {display:none}
+</style>
+
+
+<# include "_htmlfooter.espx" #>
+

@@ -1,0 +1,80 @@
+<# include "_htmlheader.espx" #>
+<# include "_authentication_admin.espx" #>
+<# include "_admin_menu.espx" #>
+<# if ( "<#[system.core]#>" == "PHP"){ 
+ include "admin_wizard_spreadsheet_create_redirect.espx" 
+ }
+#>
+    <div id="red_billing_setup">
+        <br><B><font style="color: red;"><u>Notice: To complete your setup, please click on the Setup Wizard on the left hand side.  Make sure you click the Cloud Billing Setup link to get your store setup properly.</u></font></B>
+    </div>
+<div class="welcomeheadline">Edit Website Content</div>
+<p>You can use the following tools to create and manage content and custom pages for your website.</p>
+<hr size="1">
+<a href="/?page=admin_content_edit&edit=0">+Add New Content Here.</a>
+
+
+<hr>
+
+<# start list for content;
+show 25 rows per page;
+sort by content.created_on in descending order;
+#>
+
+<# start header #>
+<# end header #>
+
+<# start row #>
+<div class="blogheadline"><a href="/?page=content&aid=<# content.id #>" target="_blank"><# content.name #></a></div>
+<div class="blogteaser"><# content.description #> <br>
+<a href="/?page=admin_content_edit&edit=<# content.id #>&value=<# content.page #>">Default Style - Website style setup - [Edit]</a></div>
+<div class="blogseparator"></div>
+<# end row #>
+
+<# start footer #>
+<p>
+<# end footer #>
+
+<# no results #>
+	<h2>There is no content in this list yet...</h2>
+<# end no results #>
+
+<# end list #>
+
+
+<# start list for webstyle;
+show 25 rows per page;
+sort by webstyle.created_on in descending order;
+#>
+
+<# start header #><# end header #>
+
+<# start row #>
+<div class="blogheadline">Default Style</div>
+<div class="blogteaser">Website style setup<br>
+<a href="/?page=admin_style_edit&edit=<# webstyle.id #>">[Edit]</a></div>
+<div class="blogseparator"></div>
+
+<# end row #>
+
+<# start footer #>
+<p>
+
+<# end footer #>
+
+<# no results #>
+	<h2>There is no webstyle in this list yet...</h2>
+<# end no results #>
+
+<# end list #>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	jQuery(".warning_msg").hide();
+});
+</script>
+
+
+ 
+<# include "_admin_footer.espx" #>
+
+<# include "_htmlfooter.espx" #>
