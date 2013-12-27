@@ -8,6 +8,20 @@
 	<div style="clear: both;"></div>
 </div>
 <div class="storelistingcontainer">
+	<# start list for content;
+		include when content.page == "store-top";
+
+		hide pager both;
+	#>
+	<# start header #><# end header #>
+	<# start row #>
+	<# content.body #>
+	<# end row #>
+	<# start footer #><# end footer #>
+	<# no results #>
+		<div class="warning">Store-top Not Setup <a href="/?page=admin_wizard_pages&edit=0&iid=3a48923809754c7ca77cd72db6fcb403&value=store-top&name=Website-store-top&desc=Content for our store-top"><u>Click here</u></a>.</div>
+	<# end no results #>
+	<# end list #>
 
 	<# start list for googlespreadsheet <#[webstyle.store_sheet_id]#>;
 
@@ -45,6 +59,14 @@
 						<input type="hidden" value="<# row.c #>" name="img">
 						<input type="hidden" value="<# row.h #>" name="tax_rate">
 						<input type="hidden" value="<# row.i #>" name="shipping_charge">
+						
+						<!-- new shipping and frequency variables -->
+						<input type="hidden" value="<# row.j #>" name="shipping_required">
+						<input type="hidden" value="<# row.k #>" name="setup_fee">
+						<input type="hidden" value="<# row.l #>" name="frequency">
+						<input type="hidden" value="<# row.m #>" name="free_trial_days">
+						<input type="hidden" value="<# row.n #>" name="billing_date">
+						<input type="hidden" value="<# row.o #>" name="prorate">
 					</form>
 				</div>
 				<div style="clear: both;"></div>
@@ -59,6 +81,19 @@
 
 	<# end list #>
 	
+	<# start list for content;
+		include when content.page == "store-bottom";
+		hide pager both;
+	#>
+	<# start header #><# end header #>
+	<# start row #>
+	<# content.body #>
+	<# end row #>
+	<# start footer #><# end footer #>
+	<# no results #>
+		<div class="warning">Store-bottom Not Setup <a href="/?page=admin_wizard_pages&edit=0&iid=46b241a7a08b4e57a5f7e548836bc864&value=store-bottom&name=Website-store-bottom&desc=Content for our store-bottom"><u>Click here</u></a>.</div>
+	<# end no results #>
+	<# end list #>
 	<div style="clear: both;"></div>
 </div>
 

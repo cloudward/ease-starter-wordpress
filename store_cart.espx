@@ -14,13 +14,26 @@ window.location = "/?page=store";
 </script>
 
 <center>
-<div style="width: 100%;">
+<div class="googleContactForm">
 <table>
 	<tr>
 		<td>
 			
 
 <h3><#[url.message]#></h3>
+<# start list for content;
+include when content.page == "store-cart";
+hide pager both;
+#>
+<# start header #><# end header #>
+<# start row #>
+<# content.body #>
+<# end row #>
+<# start footer #><# end footer #>
+<# no results #>
+<div class="warning">Store-cart Not Setup <a href="/?page=admin_wizard_pages&edit=0&iid=9bef2c1c3e544fe3856b12f4c98ea228&value=store-cart&name=Website-store-cart&desc=Content for our store-cart"><u>Click here</u></a>.</div>
+<# end no results #>
+<# end list #>
 
 <# start list for cart;
 include when cart.orderid == "<#[cookie.orderid]#>";
@@ -39,6 +52,7 @@ hide pager both;
 		<td class="cartheadercell" colspan="2">Item</td>
 		<td class="cartheadercell" style="text-align: center;">Qty</td>
 		<td class="cartheadercell" width="80" style="text-align: center;">Price</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Setup</td>
 		<td class="cartheadercell" width="80" style="text-align: center;">Tax</td>
 		<td class="cartheadercell" width="80" style="text-align: center;">Shipping</td>
 		<td class="cartheadercell" width="80" style="text-align: center;">Total</td>
@@ -62,6 +76,20 @@ hide pager both;
 		</td>
 		<td class="cartrowcell"  style="text-align: center;"><# cart.qty #></td>
 		<td class="cartrowcell"  style="text-align: center;">$ <# cart.price #> </td>
+		<td class="cartrowcell"  style="text-align: center;">
+			<script>
+				/** setup fee **/
+				var setup = "<# cart.setup_fee #>";
+				setup = setup.toUpperCase();
+				if(setup == "" || setup == "NO"){
+					setup = 0;
+				}else{
+					setup = setup;
+				}
+				document.write( "<input type='text' class='setup' value='"+setup+"' style='display:none'>" );
+				document.write(setup);
+			</script>
+		</td>
 		<td class="cartrowcell"  style="text-align: center;">
 			<script>
 				/** tax **/
