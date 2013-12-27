@@ -6,7 +6,7 @@
         "database_host": "mysql:unix_socket=/cloudsql/[app_id]:[sql_id];dbname=ease_db;charset=utf8",
         "database_username": "root",
         "database_password": "",
-	"cloud_storage_bucket": "[bucket_name]",
+	"gs_bucket_name": "[bucket_name]",
 		"gapp_access_token": "",
 		"gapp_refresh_token": ""
 	},
