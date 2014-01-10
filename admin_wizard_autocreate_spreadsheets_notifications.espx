@@ -88,7 +88,7 @@
                 dataType: 'html',
                 url: '/?page=admin_wizard_spreadsheet_auto_create&type=' + sheet_type,
                 success: function (data) {
-	           if(sheet_type != "surveys"){
+	          if(sheet_type != "surveys"){
 			    i=i+1;
 			    createSheet(sheets[i]);
 			    // MyNamespace.myFunction(data); //DO ANY PROCESS HERE
@@ -110,7 +110,11 @@
 			      }
 			  });
 		  }
+		},error: function(data){
+		     jQuery("#notifications_status").html("<B>There was an error creating the " + sheet_type + " spreadsheet, please reload the page</B>");
 		}
+		
+		
             });
 	}
 </script>
