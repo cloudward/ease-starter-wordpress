@@ -4,6 +4,9 @@
 
 <style>
 .warning{display:none;}
+.wp_hide{
+	display: none;
+}
 .googlecontactform{box-shadow: 2px 2px 2px #CCC;display:block !important;}
 .tForm{
     padding:10px !important;
