@@ -51,7 +51,7 @@ hide pager both;
 
 #>
 <# start header #>
-<div style="width: 30%;float: left;" id="chargeForm">
+<div style="width: 100%;float: left;" id="chargeForm">
 	<form name="cloudBillingForm" id="cloudBillingForm" action="https://billing.cloudward.com/web_services/billing/" method="post" autocomplete="off">
 		<input type="hidden" name="submit" value="1">
 		<input type="hidden" name="cid" value="<#[webuser.billing_cid]#>">
@@ -352,7 +352,7 @@ hide pager both;
 <# end no results #>
 
 <# end list #>
-<div style="width: 62%;float: right;">
+<div style="width: 100%;float: right;">
 	<# start list for cart;
 	include when cart.orderid == "<#[cookie.orderid]#>";
 	show 100 rows per page;
@@ -368,7 +368,7 @@ hide pager both;
 			<td class="cartheadercell" colspan="2">Item</td>
 			<td class="cartheadercell" style="text-align: center;">Qty</td>
 			<td class="cartheadercell" width="80" style="text-align: center;">Price</td>
-			<td class="cartheadercell" width="80" style="text-align: center;">setup</td>
+			<td class="cartheadercell" width="80" style="text-align: center;">Setup</td>
 			<td class="cartheadercell" width="80" style="text-align: center;">Tax</td>
 			<td class="cartheadercell" width="80" style="text-align: center;">Shipping</td>
 			<td class="cartheadercell" width="80" style="text-align: center;">Total</td>
