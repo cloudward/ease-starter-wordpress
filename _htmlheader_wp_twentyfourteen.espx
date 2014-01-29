@@ -1,7 +1,3 @@
-<# apply webstyle.fb7fbd7a3bed0f0c9cf0180d26a6d9c1 as "webstyle" .#>
-<# apply eas_vault.9a7ac1363ff31893fc4047a4f5224f48 as "easvault" .#>
-<# apply webuser.<#[cookie.cid]#> as "webuser" .#>
-
 <style>
 .warning{display:none;}
 .wp_hide{
@@ -114,7 +110,6 @@ background:gray;
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 ); /* IE6-8 */
 
 
-	
 	color: #FFF;
 	font-size: 18px;
 	font-weight: bold;
@@ -140,5 +135,9 @@ background:gray;
 }
 table, th, td {
     border: 0px solid rgba(0, 0, 0, 0.1);
+}
+.site-content .entry-header, .site-content .entry-content, .site-content .entry-summary, .site-content .entry-meta, .page-content {
+    margin: 0 auto;
+    max-width: 75%;
 }
 </style>

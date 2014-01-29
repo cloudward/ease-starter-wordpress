@@ -38,8 +38,11 @@ hide pager both;
 		<td width="10" class="cartheadercell"></td>
 		<td class="cartheadercell" colspan="2">Item</td>
 		<td class="cartheadercell" style="text-align: center;">Qty</td>
-				<td class="cartheadercell" width="80" style="text-align: center;">Price</td>
-		<td class="cartheadercell" width="80" style="text-align: center;">Subtotal</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Price</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Setup</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Tax</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Shipping</td>
+		<td class="cartheadercell" width="80" style="text-align: center;">Total</td>
 	</tr>
 <# end header #>
 <# start row #>
@@ -61,20 +64,8 @@ hide pager both;
 		<td class="cartrowcell"  style="text-align: center;"><# cart.qty #></td>
 		<td class="cartrowcell"  style="text-align: center;">$ <# cart.price #> </td>
 		<td class="cartrowcell"  style="text-align: center;">
-			$ 
+			$
 			<script>
-				/** total **/
-
-				var temp_subtotal = <# cart.qty #> * <# cart.price #>;
-                                document.write(Number(temp_subtotal).toFixed(2));
-			</script>
-		</td>
-
-	</tr>
-<tr>
-		<td class="cartrowcell" colspan="5"  style="text-align: right;">
-			Setup Fee: </td>
-			<td  class="cartrowcell" style="text-align: center;">$<script>
 				/** setup fee **/
 				var setup = "<# cart.setup_fee #>";
 				setup = setup.toUpperCase();
@@ -87,11 +78,8 @@ hide pager both;
 				document.write(setup);
 			</script>
 		</td>
-</tr>
-<tr>
-		<td class="cartrowcell" colspan="5"  style="text-align: right;">
-			Tax: </td>
-			<td    class="cartrowcell" style="text-align: center;">$
+		<td class="cartrowcell"  style="text-align: center;">
+			$
 			<script>
 				/** tax **/
 				var subtotal = <# cart.qty #> * <# cart.price #>;
@@ -100,11 +88,8 @@ hide pager both;
 				document.write(tax);
 			</script>
 		</td>
-</tr>
-<tr>
-		<td class="cartrowcell"  colspan="5" style="text-align: right;">
-			Shipping: </td>
-			<td  class="cartrowcell" style="text-align: center;">$
+		<td class="cartrowcell"  style="text-align: center;">
+			$
 			<script>
 				/** shipping **/
 				var shipping = (Number(<# cart.shipping_charge #>)).toFixed(2);
@@ -112,16 +97,10 @@ hide pager both;
 				document.write(shipping);
 			</script>
 		</td>
-</tr>
-
-<tr>
-<td class="cartrowcell"  colspan="5" style="text-align: right;">
-			Subtotal: </td><td class="cartrowcell" style="text-align: center;">
+		<td class="cartrowcell"  style="text-align: center;">
 			$ 
 			<script>
 				/** total **/
-
-				var subtotal = <# cart.qty #> * <# cart.price #>;
 				var total = <# cart.qty #> * <# cart.price #>;
 				var tax = ((subtotal * <# cart.tax_rate #>) / 100).toFixed(2);
 				var setup = Number(<# cart.setup_fee #>);
@@ -131,22 +110,13 @@ hide pager both;
 				document.write(Number(grand_total).toFixed(2));
 			</script>
 		</td>
-</tr>
-<tr>
-<td colspan="6" class="cartrowcell" style="text-align: center;">
-<hr style="margin:0px"></hr>
-</tr>
+
+	</tr>
+
 <# end row #>
 <# start footer #>
-<tr>
-		<td class=""  colspan="4" style="text-align: right;">
-			 </td>
-		<td class="cartrowcell"></td>
-			<td class="cartrowcell" style="text-align: center;"><B>TOTALS:</B>
-		</td>
-</tr>
 	<tr class="cartfooterrow">
-		<td colspan="3" class="cartfooterrowcell" style="background-color: #FFF;"></td>
+		<td colspan="6" class="cartfooterrowcell" style="background-color: #FFF;"></td>
 		<td class="cartfooterrowcell" style="background-color: #FFF;"></td>
 		<td class="cartfooterrowcell" >Setup</td>
 		<td class="cartfooterrowcell" style="text-align: center;">
@@ -172,7 +142,7 @@ hide pager both;
 		</td>
 	</tr>
 	<tr class="cartfooterrow">
-		<td colspan="3" class="cartfooterrowcell" style="background-color: #FFF;"></td>
+		<td colspan="6" class="cartfooterrowcell" style="background-color: #FFF;"></td>
 		<td class="cartfooterrowcell" style="background-color: #FFF;">
 			<input type="button" value="Clear Cart" style="width: 120px;display: none;" onclick="javascript: window.location='/?page=store_clear_cart&orderid=<#[cookie.orderid]#>';">
 		</td>
@@ -200,8 +170,9 @@ hide pager both;
 		</td>
 	</tr>
 	<tr class="cartfooterrow">
-		<td colspan="4" class="cartfooterrowcell" style="background-color: #FFF;">
-			<span style="float:right"><input type="button" value="Keep Shopping" style="" onclick="goBack()"></span>
+		<td colspan="6" class="cartfooterrowcell" style="background-color: #FFF;"></td>
+		<td class="cartfooterrowcell" style="background-color: #FFF;">
+			<input type="button" value="Keep Shopping" style="width: 120px;" onclick="goBack()">
 		</td>
 		<td colspan="" class="cartfooterrowcell" >Shipping</td>
 		<td colspan="" class="cartfooterrowcell" style="text-align: center;">
@@ -227,9 +198,9 @@ hide pager both;
 		</td>
 	</tr>
 	<tr class="cartfooterrow">
-		<td colspan="4" class="cartfooterrowcell" style="background-color: #FFF;">
-			<span style="float:right"><input type="button" value="Checkout" style="" onclick="checkout()"></span>
-               </td>
+		<td colspan="6" class="cartfooterrowcell" style="background-color: #FFF;"></td>
+		<td class="cartfooterrowcell" style="background-color: #FFF;">
+			<input type="button" value="Checkout" style="width: 120px;" onclick="checkout()">
 		</td>
 		<td class="cartfooterrowcell">Total </td>
 		<td class="cartfooterrowcell" style="text-align: center;">
@@ -291,6 +262,7 @@ hide pager both;
 
  <# end no results #>
 <# end list #>
+</td></tr></table>
 <div style="clear: both;"></div>
 </div>
 <# include "_htmlfooter.espx" #>
