@@ -15,25 +15,8 @@ window.location = "/?page=store";
 
 <center>
 <div class="googleContactForm">
-<table>
-	<tr>
-		<td>
 			
-
 <h3><#[url.message]#></h3>
-<# start list for content;
-include when content.page == "store-cart";
-hide pager both;
-#>
-<# start header #><# end header #>
-<# start row #>
-<# content.body #>
-<# end row #>
-<# start footer #><# end footer #>
-<# no results #>
-<div class="warning">Store-cart Not Setup <a href="/?page=admin_wizard_pages&edit=0&iid=9bef2c1c3e544fe3856b12f4c98ea228&value=store-cart&name=Website-store-cart&desc=Content for our store-cart"><u>Click here</u></a>.</div>
-<# end no results #>
-<# end list #>
 
 <# start list for cart;
 include when cart.orderid == "<#[cookie.orderid]#>";
@@ -41,7 +24,7 @@ show 100 rows per page;
 hide pager both;
 #>
 <# start header #>
-<div>
+<div style="display: none;">
 	<div class="secureHeader">
 		<div style="clear: both;"></div>
 	</div>
@@ -291,7 +274,7 @@ hide pager both;
 
  <# end no results #>
 <# end list #>
-</td></tr></table>
+
 <div style="clear: both;"></div>
 </div>
 <# include "_htmlfooter.espx" #>

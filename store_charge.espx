@@ -4,7 +4,7 @@
 
 <span class="wp_hide"><h3>Enter Payment Information</h3></span>
 
-<div class="googlecontactform" style="width: 95%;float: left;">
+<div class="" style="width: 95%;float: left;">
 	
 <# apply orders.<#[cookie.orderid]#> as "order".#>
 
@@ -51,7 +51,7 @@ hide pager both;
 
 #>
 <# start header #>
-<div style="width: 30%;float: left;" id="chargeForm">
+<div style="width: 100%;float: left;" id="chargeForm">
 	<form name="cloudBillingForm" id="cloudBillingForm" action="https://billing.cloudward.com/web_services/billing/" method="post" autocomplete="off">
 		<input type="hidden" name="submit" value="1">
 		<input type="hidden" name="contactid" value="<#[webuser.billing_cid]#>">
@@ -190,6 +190,9 @@ hide pager both;
 				</tr>
 				<tr>
 					<td id="savedCardsForm" class="chargeForm"></td>
+				</tr>
+				<tr> 		
+					<a href="#order_details">View Order Summary</a> 		
 				</tr>
 				<tr class="tForm">	
 					<td class="chargeForm">
@@ -352,7 +355,9 @@ hide pager both;
 <# end no results #>
 
 <# end list #>
+<a name="order_details"></a>
 <div style="width: 62%;float: right;">
+	<div style="width: 100%;float: right;">
 	<# start list for cart;
 	include when cart.orderid == "<#[cookie.orderid]#>";
 	show 100 rows per page;

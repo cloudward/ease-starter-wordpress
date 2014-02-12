@@ -1,8 +1,8 @@
 
 <# include "_htmlheader.espx" #>
 <br>
-
-<table width="100%">
+<center>
+<table width="600">
 	<tr>
 		<td>
 			
@@ -57,7 +57,7 @@
 }
 #>
 
-<table width="100%">
+<table width="600">
 	<tr>
 		<td colspan="2"  class="cartheadercell"></td>
 	</tr>
@@ -82,7 +82,7 @@
 	</tr>
 </table>
 <h3>Deliver To:</h3>
-<table width="100%">
+<table width="600">
 	<tr>
 		<td colspan="2"  class="cartheadercell"></td>
 	</tr>
@@ -121,7 +121,7 @@ show 100 rows per page;
 hide pager both;
 #>
 <# start header #>
-<table width="100%">
+<table width="600">
 	<tr>
 		<td class="cartheadercell2">Qty</td>
 		<td class="cartheadercell2">Item</td>
@@ -195,7 +195,6 @@ $(document).ready(function(){
 </script>
 
 </td></tr></table>
-<div class="footer_include_container">
+</center>
 <# include "_htmlfooter.espx" #>
-</div>
 
