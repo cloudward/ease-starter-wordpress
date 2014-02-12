@@ -37,7 +37,7 @@
 	<# start row #>
 		<div class="storelisting2">
 			<div class="storelistingpricecontainer">
-				<div class="storelistingprice">$ <# row.f #></div>
+				<div class="storelistingprice" id="pricedisplay_<# row.t #>">$ <# row.f #></div>
 				<div class="triangle"></div>
 				<div style="clear: both;"></div>
 			</div>

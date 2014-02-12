@@ -4,7 +4,7 @@
 
 <span class="wp_hide"><h3>Enter Payment Information</h3></span>
 
-<div class="" style="width: 95%;float: left;">
+<div class="googlecontactform" style="width: 95%;float: left;">
 	
 <# apply orders.<#[cookie.orderid]#> as "order".#>
 
@@ -51,13 +51,13 @@ hide pager both;
 
 #>
 <# start header #>
-<div style="width: 100%;float: left;" id="chargeForm">
+<div style="width: 30%;float: left;" id="chargeForm">
 	<form name="cloudBillingForm" id="cloudBillingForm" action="https://billing.cloudward.com/web_services/billing/" method="post" autocomplete="off">
 		<input type="hidden" name="submit" value="1">
-		<input type="hidden" name="cid" value="<#[webuser.billing_cid]#>">
+		<input type="hidden" name="contactid" value="<#[webuser.billing_cid]#>">
 		<input type="hidden" name="appcid" value="<#[cookie.cid]#>">
-		<input type="hidden" name="master_account_id" value="<#[easvault.marketplace_id]#>">
-		<input type="hidden" name="api_password" value="<#[easvault.merchant_password]#>">
+		<input type="hidden" name="masterAccountId" value="<#[easvault.marketplace_id]#>">
+		<input type="hidden" name="apiPassword" value="<#[easvault.merchant_password]#>">
 		<input type="hidden" name="action" value="billing_form">
 		<input type="hidden" name="return_url" id="return_url" value='https://<# system.domain #>/'>
 		<input type="hidden" name="return_page" id="return_page" value='store_payment_listener'>
@@ -190,9 +190,6 @@ hide pager both;
 				</tr>
 				<tr>
 					<td id="savedCardsForm" class="chargeForm"></td>
-				</tr>
-			      <tr>	
-					<a href="#order_details">View Order Summary</a>
 				</tr>
 				<tr class="tForm">	
 					<td class="chargeForm">
@@ -355,9 +352,8 @@ hide pager both;
 <# end no results #>
 
 <# end list #>
-<a name="order_details"></a>
-<div style="width: 100%;float: right;">
-		<# start list for cart;
+<div style="width: 62%;float: right;">
+	<# start list for cart;
 	include when cart.orderid == "<#[cookie.orderid]#>";
 	show 100 rows per page;
 	hide pager both;
