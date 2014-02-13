@@ -356,7 +356,7 @@ hide pager both;
 
 <# end list #>
 <a name="order_details"></a>
-<div style="width: 62%;float: right;">
+<div style="width: 100%;float: right;">
 	<div style="width: 100%;float: right;">
 	<# start list for cart;
 	include when cart.orderid == "<#[cookie.orderid]#>";
