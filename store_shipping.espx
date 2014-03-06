@@ -14,16 +14,20 @@ hide pager both;
 <script>
 	var total = (Number(<# cart.qty #>) * Number(<# cart.price #>));
 	var tax = ((Number(total) * Number(<# cart.tax_rate #>)) / 100).toFixed(2);
-	var shipping = Number(<# cart.shipping_charge #>);
+	if("<# cart.order_shipping_flag #>" == 'TRUE'){
+		var shipping = 0;
+	}else{
+		var shipping = Number(<# cart.shipping_charge #>);
+	}
 	var setupTax = ((Number(<# cart.setup_Fee #>) * Number(<# cart.tax_rate #>)) / 100).toFixed(2);
 	var setup = (Number(<# cart.setup_fee #>) + Number(setupTax));
 	setup = (Number(setup)).toFixed(2);
 	total = (Number(total) + Number(tax) + Number(shipping) +  Number(setup));
 
-	document.write( "<input type='text' class='itemTotal' value='"+total+"' style='display:none'>" );
-	document.write( "<input type='text' class='itemTax' value='"+tax+"' style='display:none'>" );
-	document.write( "<input type='text' class='itemShipping' value='"+shipping+"' style='display:none'>" );
-	document.write( "<input type='text' class='itemSetup' value='"+setup+"' style='display:none'>" );
+	document.write( "<input type='hidden' class='itemTotal' value='"+total+"'>" );
+	document.write( "<input type='hidden' class='itemTax' value='"+tax+"'>" );
+	document.write( "<input type='hidden' class='itemShipping' value='"+shipping+"'>" );
+	document.write( "<input type='hidden' class='itemSetup' value='"+setup+"'>" );
 </script>
 
 <# end row #>
@@ -39,6 +43,24 @@ hide pager both;
 <# end footer #>
 <# no results #> <# end no results #>
 <# end list #>
+
+
+<?php
+/** calculate flat rate shipping **/
+$cookie = $_COOKIE['orderid'];
+$sql = "SELECT order_shipping_charge FROM cart WHERE orderid=:orderid AND order_shipping_flag = 'TRUE' GROUP BY order_shipping_charge ORDER BY order_shipping_charge DESC";
+$sqlParams = array(':orderid'=>$cookie);
+$query = ease_db_query_params($sql, $sqlParams);
+while($row = ease_db_fetch($query)){
+	$flatShippingRate += $row['order_shipping_charge'];
+}
+if(!empty($flatShippingRate)){
+	echo "<input type='hidden' id='flatRateShipping' value='".$flatShippingRate."'/>";
+}else{
+	echo "<input type='hidden' id='flatRateShipping' value='0'/>";
+}
+?>
+
 </div>
 <center>
 	
@@ -187,20 +209,6 @@ when updating redirect to "/?page=store_charge";
 				<input type="hidden" id="ordershipping"  <# orders.ordershipping #> >
 				<input type="hidden" id="ordersetup"  <# orders.setupfee #> >
 				<script type="text/javascript">
-					function UpdateTotal()
-					{
-				       var oInputs = new Array();
-						var total = 0;
-						var subject = 0;
-					     oInputs = document.getElementsByClassName( 'itemTotal' ); // store collection of all <input/> elements
-					    for ( i = 0; i < oInputs.length; i++ )
-					     {
-							subject = parseFloat(oInputs[i].value);
-					       	total = (Number(subject) + Number(total));
-					     }
-						total = total.toFixed(2);
-						document.getElementById("ordertotal").value = total;
-					}
 
 					function UpdateTax()
 					{
@@ -229,6 +237,8 @@ when updating redirect to "/?page=store_charge";
 					       	total = (Number(subject) + Number(total));
 					     }
 						total = total.toFixed(2);
+						var flatRateShipping = document.getElementById('flatRateShipping').value;
+						total = Number(total) + Number(flatRateShipping);
 						document.getElementById("ordershipping").value = total;
 					}
 					
@@ -246,13 +256,29 @@ when updating redirect to "/?page=store_charge";
 						total = total.toFixed(2);
 						document.getElementById("ordersetup").value = total;
 					}
+					
+					function UpdateTotal()
+					{
+						var oInputs = new Array();
+						var total = 0;
+						var subject = 0;
+						oInputs = document.getElementsByClassName( 'itemTotal' ); // store collection of all <input/> elements
+						for ( i = 0; i < oInputs.length; i++ )
+						{
+							subject = parseFloat(oInputs[i].value);
+						    total = (Number(subject) + Number(total));
+						}
+						total = total.toFixed(2);
+						var flatRateShipping = document.getElementById('flatRateShipping').value;
+						total = Number(total) + Number(flatRateShipping);
+						document.getElementById("ordertotal").value = total;
+					}
 
-					UpdateTotal();
 					UpdateTax();
 					UpdateShipping();
 					UpdateSetup();
+					UpdateTotal();
 				</script>
-			
 			
 				<input type="button" value="Continue Checkout"  <# update button #> >
 			</div>
