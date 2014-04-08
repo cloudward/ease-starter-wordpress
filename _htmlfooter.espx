@@ -1,8 +1,6 @@
 <div class="newslettersignup" style="margin-top: 60px;">
 <# start form for googlespreadsheet <#[webstyle.email_sheet_id]#>;
 
-save to "Sheet1";
-// specifies what sheet to save results to
 
 when creating redirect to "/?page=confirmation&emailform=none";
 #>

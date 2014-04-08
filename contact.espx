@@ -3,8 +3,6 @@
 <# start form for googlespreadsheet <#[webstyle.contact_us_id]#>;
 // should look somewhat like 0AjfUurRV-PuudE5mZnQxUy0xMlg3YnNPVzA4b01XOHc
 
-save to "Sheet1";
-// specifies what sheet to save results to
 
 when creating redirect to "/?page=confirmation&first=<# form.a #>&last=<# form.b #>&email=<# form.c #>";
 #>
