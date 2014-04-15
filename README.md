@@ -18,3 +18,4 @@ EASE does many things that would generally be implemented in a web app by utiliz
 Licensing - EASE is free and open source
 
 This project is licensed under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0. See the LICENSE.txt file in the source root for details. 
+ 
