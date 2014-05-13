@@ -1,11 +1,4 @@
-<# include "_authentication_admin.espx"
-#>
 
-<# include "_htmlheader.espx" #>
-
-<# include "_admin_menu.espx" #>
-<# include "_admin_footer.espx" #>
-<# include "_htmlfooter.espx" #>
 <# apply webstyle.fb7fbd7a3bed0f0c9cf0180d26a6d9c1 as "webstyle" .#>
 <#
 if ( "<#[webstyle.spreadsheets_created]#>" == ""){
@@ -15,6 +8,7 @@ create new record for "eas_vault";
         set gapp_client_secret_local to "<#[config.gapp_client_secret]#>";
         set gapp_client_id_live to "<#[config.gapp_client_id]#>";
         set gapp_client_secret_live to "<#[config.gapp_client_secret]#>";
+        set projectid to "<# system.domain #>";
 }
 #>
 <#
