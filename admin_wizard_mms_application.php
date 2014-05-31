@@ -5,24 +5,27 @@
 */
 
 /** merchant registration api class **/
-require_once('_merchant_registration.espx');
+require_once('_merchant_registration.php');
+global $ease_core;
 
 /** get current application id **/
 $mmsSql = "SELECT complete FROM billing_application WHERE uuid=:uuid";
 $mmsParams = array(':uuid'=>'04df66fee0644a1bb070b730fab29f6d');
-$mmsQuery = ease_db_query_params($mmsSql, $mmsParams);
-$mmsResult = ease_db_fetch($mmsQuery);
-$mmsStatus = $mmsResult['complete'];
+$mmsQuery = $ease_core->db->prepare($mmsSql);
+
+$mmsResult = $mmsQuery->execute($mmsParams);
+$mmsRow = $mmsQuery->fetch(PDO::FETCH_ASSOC);
+$mmsStatus = $mmsRow['complete'];
 
 /** is this and update or a create **/
-if($this->mmsStatus == "completed"){
+if($mmsStatus == "completed"){
 	
 	/** this is an update, get merchant state data **/
 	$params = array();
 	$params['action'] = 'mmsApplication';
 	$params['request'] = 'getApplication';
-	ease_set_value('action.button', "<input type='submit' value='Update Application' id='updateApplication'/>");
-	ease_set_value('action.request', "updateApplication");
+	$action_button = "<input type='submit' value='Update Application' id='updateApplication'/>";
+	$action_request = "updateApplication";
 	$dataObj = new mmsApplicationProcessor($this, $params);
 	$stateData = $dataObj->processApplication();
 	
@@ -31,19 +34,16 @@ if($this->mmsStatus == "completed"){
 }else{
 	
 	/** create button and create request variable**/
-	ease_set_value('action.button', "<input type='submit' value='Submit Application' id='createApplication'/>");
-	ease_set_value('action.request', "createApplication");
+	$action_button="<input type='submit' value='Submit Application' id='createApplication'/>";
+	$action_request="createApplication";
 }
 
 ?>
 
-<# include "_authentication_admin.espx" #>
-<# include "_htmlheader.espx" #>
 
-<# include "_admin_menu.espx" #>
 <script>
 jQuery(document).ready(function(){
-	$(".emailsignup").hide();
+	jQuery(".emailsignup").hide();
 });
 </script>
 
@@ -103,10 +103,10 @@ jQuery(document).ready(function(){
 		text-shadow: 1px 1px #CCC;
 	}
 </style>
-<form id="merchantApplication" name="merchantApplication" action="/" method="POST">
+<form id="merchantApplication" name="merchantApplication" action="/wp-admin/admin.php?page=ease_merchant_application2" method="POST">
 <input type="hidden" name="page" id="page" value="admin_wizard_mms_application_2">
 <input type="hidden" name="action" id="action" value="mmsApplication">
-<input type="hidden" name="request" id="request" value="<#[action.request]#>">
+<input type="hidden" name="request" id="request" value="<?php echo $action_request; ?>">
 <div id="otherformelements" class="applicationDemo"> 
 	<p style="font-weight: bold;margin-top: 10px;">Merchant Application</p>
 	<p style="font-size: 10px;">Complete each section below and submit your application using the submit button in the last section. All fields marked with a red * are required.</p>
@@ -2083,7 +2083,7 @@ jQuery(document).ready(function(){
 				</div>
 				<div>
 					<input type="button" value="Back to Section 6" id="merchantServicesTrigger" class="trigger">
-					<#[action.button]#>
+					<?php echo $action_button; ?>
 				</div>
 			</div>
 		
@@ -2240,7 +2240,3 @@ function scrollToAnchor(aid){
 
 </script>
 
-
-<# include "_admin_footer.espx" #>
-
-<# include "_htmlfooter.espx" #>

@@ -1,5 +1,7 @@
 <?php
-require_once('_merchant_registration.espx');
+require_once('_merchant_registration.php');
+
+global $ease_core;
 
 /** MMS application hook **/
 if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
@@ -12,8 +14,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 		/** update local record to completed **/
 		$sql = "UPDATE billing_application SET complete = 'Completed' WHERE uuid=:uuid";
 		$sqlParams = array(':uuid'=>'04df66fee0644a1bb070b730fab29f6d');
-		$sqlQuery = ease_db_query_params($sql, $sqlParams);
-
+		$mmsQuery = $ease_core->db->prepare($sql);
+		$mmsResult = $mmsQuery->execute($sqlParams);
 		/** redirect on success or failure **/
 		ease_set_value('api.response', "<p class='pHeader'>Success.... please read below.</p><p>Your application has been successfully submitted and we are reviewing the information.</p><p>You will receive and email when the application has been approved.</p>");
 	}else{
@@ -27,11 +29,6 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 
 
 ?>
-
-<# include "_authentication_admin.espx" #>
-<# include "_htmlheader.espx" #>
-
-<# include "_admin_menu.espx" #>
 <script>
 jQuery(document).ready(function(){
 	$(".emailsignup").hide();
@@ -133,7 +130,3 @@ foreach($_POST AS $key => $value){
 <script type="text/javascript">
 
 </script>
-
-<# include "_admin_footer.espx" #>
-
-<# include "_htmlfooter.espx" #>
