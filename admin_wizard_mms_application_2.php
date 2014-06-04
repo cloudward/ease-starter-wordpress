@@ -17,13 +17,13 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 		$mmsQuery = $ease_core->db->prepare($sql);
 		$mmsResult = $mmsQuery->execute($sqlParams);
 		/** redirect on success or failure **/
-		ease_set_value('api.response', "<p class='pHeader'>Success.... please read below.</p><p>Your application has been successfully submitted and we are reviewing the information.</p><p>You will receive and email when the application has been approved.</p>");
+		$api_response = "<p class='pHeader'>Success.... please read below.</p><p>Your application has been successfully submitted and we are reviewing the information.</p><p>You will receive and email when the application has been approved.</p>";
 	}else{
-		ease_set_value('api.response', "<p class='pHeader'>Oops.... There was an error in your applicaiton.</p><p>There was an error while processing your application.</p><p>Click on the 'Correct Application' button below to review your information.</p><input type='submit' value='Correct Application'/>");
+		$api_response = "<p class='pHeader'>Oops.... There was an error in your application.</p><p>There was an error while processing your application.</p><p>Click on the 'Correct Application' button below to review your information.</p><input type='submit' value='Correct Application'/>";
 	}
 
 }else{
-	ease_set_value('api.response', "");
+	$api_response = "";
 	
 }
 
@@ -31,7 +31,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 ?>
 <script>
 jQuery(document).ready(function(){
-	$(".emailsignup").hide();
+	jQuery(".emailsignup").hide();
 });
 </script>
 
@@ -120,7 +120,7 @@ foreach($_POST AS $key => $value){
 <div id="otherformelements" class="applicationDemo"> 
 	<div class="containerMessage">
 
-		<#[api.response]#>
+		<?php echo $api_response; ?>
 	</div>
 	<div style="clear: both;"></div>
 </div>
