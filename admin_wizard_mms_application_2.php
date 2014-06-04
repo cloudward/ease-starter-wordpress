@@ -107,7 +107,7 @@ jQuery(document).ready(function(){
 		font-weight: bold;
 	}
 </style>
-<form id="merchantApplication" name="merchantApplication" action="/" method="POST">
+<form id="merchantApplication" name="merchantApplication" action="/wp-admin/admin.php?page=ease_merchant_application&edit=04df66fee0644a1bb070b730fab29f6d" method="POST">
 	<input type="hidden" name="page" value="admin_wizard_mms_application">
 <?php
 foreach($_POST AS $key => $value){
