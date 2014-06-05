@@ -58,8 +58,14 @@ if($_SERVER["HTTPS"] != "on")
 	</tr>
 	<tr class="loginrow">
 		<td colspan="2">
+			<# if ("<#[url.goto]#>" == ""){
+			   set my_url.goto to "members";
+			}else{
+			   set my_url.goto to "<#[url.goto]#>";
+			}
+			#>
 			<input type="hidden" value="_validate_members" name="page">
-			<input type="hidden" value="<#[url.goto]#>" name="goto">
+			<input type="hidden" value="<#[my_url.goto]#>" name="goto">
 		</td>
 	</tr>
 </table>
