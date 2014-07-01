@@ -8,7 +8,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 	/** init class **/
 	$mmsObj = new mmsApplicationProcessor($this, $_POST);
 	$mmsResponse = $mmsObj->processApplication();
-	
+	$mmsResponse = (array)$mmsResponse;
 	if($mmsResponse['Result'] == "Approved"){
 
 		/** update local record to completed **/
