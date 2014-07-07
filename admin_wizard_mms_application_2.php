@@ -17,16 +17,23 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 		$mmsQuery = $ease_core->db->prepare($sql);
 		$mmsResult = $mmsQuery->execute($sqlParams);
 		/** redirect on success or failure **/
-		$api_response = "<p class='pHeader'>Success.... please read below.</p><p>Your application has been successfully submitted and we are reviewing the information.</p><p>You will receive and email when the application has been approved.</p>";
+		ease_set_value('api.response', "<p class='pHeader'>Success.... please read below.</p> <p>Your application has been successfully submitted and we are reviewing the information.</p> <p><b style='color: red;'>ATTENTION:</b> There is one more step to the process... Please email a scanned copy (front and back) of both your Drivers License and Utility Bill (electric, water, gas etc etc.) so that we may use it in our vetting process. This information is kept strictly confidential.</p> <p>Email To: <a href='mailto: support@secure.cloudward.com?subject=Vetting Documents for".$_POST['LegalName']."'>support@secure.cloudward.com</a></p> <p>You will receive and email when the application has been approved.</p>");
+
 	}else{
-		$api_response = "<p class='pHeader'>Oops.... There was an error in your application.</p><p>There was an error while processing your application.</p><p>Click on the 'Correct Application' button below to review your information.</p><input type='submit' value='Correct Application'/>";
+		$message = "<p class='pHeader'>Oops.... There was an error in your applicaiton.</p><p>The following error(s) occurred while processing your application.</p>";
+		$message .= "<p>The Following errors occurred with your application:</p>";
+		foreach($mmsResponse['Errors'] AS $item){
+			$message .= "<p>".$item['ErrorCode']." -> ".$item['ErrorDescription']."</p>";
+		}
+		$message .= "<br><br>";
+		$message .= "<p>Click on the 'Correct Application' button below to review your information.</p><input type='submit' value='Correct Application'/>";
+		ease_set_value('api.response', $message);
 	}
 
 }else{
-	$api_response = "";
-	
-}
+	ease_set_value('api.response', "");
 
+}
 
 ?>
 <script>
