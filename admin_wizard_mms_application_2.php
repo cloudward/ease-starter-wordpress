@@ -17,7 +17,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 		$mmsQuery = $ease_core->db->prepare($sql);
 		$mmsResult = $mmsQuery->execute($sqlParams);
 		/** redirect on success or failure **/
-		$api_response = "<p class='pHeader'>Success.... please read below.</p> <p>Your application has been successfully submitted and we are reviewing the information.</p> <p><b style='color: red;'>ATTENTION:</b> There is one more step to the process... Please upload scanned copies (front and back) of both your Drivers License and Utility Bill (electric, water, gas etc etc.) so that we may use it in our vetting process. This information is kept strictly confidential.</p><p>You will receive and email when the application has been approved.</p>";
+		$api_response = "<p class='pHeader'>Success.... please read below.</p> <p>Your application has been successfully submitted and we are reviewing the information.</p> <p><b style='color: red;'>ATTENTION:</b> There is one more step to the process... Please upload scanned copies (front and back) of both your Drivers License and Utility Bill (electric, water, gas etc etc.) so that our underwriters (SecureNet) may use it in our vetting process. This information is kept strictly confidential and only reviewed by Cloudward Inc and SecureNet.</p><p>You will receive an email when the application has been approved.</p>";
 		$mms_uploader = "<iframe style='width: 100%;height: 300px;border: 0;' src='https://secure.cloudward.com/?page=secure_uploader&d=".$_SERVER['HTTP_HOST']."'></iframe>";
 	}else{
 		$message = "<p class='pHeader'>Oops.... There was an error in your applicaiton.</p><p>The following error(s) occurred while processing your application.</p>";
