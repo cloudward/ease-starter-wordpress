@@ -17,8 +17,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 		$mmsQuery = $ease_core->db->prepare($sql);
 		$mmsResult = $mmsQuery->execute($sqlParams);
 		/** redirect on success or failure **/
-		ease_set_value('api.response', "<p class='pHeader'>Success.... please read below.</p> <p>Your application has been successfully submitted and we are reviewing the information.</p> <p><b style='color: red;'>ATTENTION:</b> There is one more step to the process... Please email a scanned copy (front and back) of both your Drivers License and Utility Bill (electric, water, gas etc etc.) so that we may use it in our vetting process. This information is kept strictly confidential.</p> <p>Email To: <a href='mailto: support@secure.cloudward.com?subject=Vetting Documents for".$_POST['LegalName']."'>support@secure.cloudward.com</a></p> <p>You will receive and email when the application has been approved.</p>");
-
+		$api_response = "<p class='pHeader'>Success.... please read below.</p> <p>Your application has been successfully submitted and we are reviewing the information.</p> <p><b style='color: red;'>ATTENTION:</b> There is one more step to the process... Please upload scanned copies (front and back) of both your Drivers License and Utility Bill (electric, water, gas etc etc.) so that we may use it in our vetting process. This information is kept strictly confidential.</p><p>You will receive and email when the application has been approved.</p>";
+		$mms_uploader = "<iframe style='width: 100%;height: 300px;border: 0;' src='https://secure.cloudward.com/?page=secure_uploader&d=".$_SERVER['HTTP_HOST']."'></iframe>";
 	}else{
 		$message = "<p class='pHeader'>Oops.... There was an error in your applicaiton.</p><p>The following error(s) occurred while processing your application.</p>";
 		$message .= "<p>The Following errors occurred with your application:</p>";
@@ -27,12 +27,11 @@ if(isset($_POST['action']) && $_POST['action'] == 'mmsApplication'){
 		}
 		$message .= "<br><br>";
 		$message .= "<p>Click on the 'Correct Application' button below to review your information.</p><input type='submit' value='Correct Application'/>";
-		ease_set_value('api.response', $message);
+		$api_response = $message;
 	}
 
 }else{
-	ease_set_value('api.response', "");
-
+	$api_response = "";
 }
 
 ?>
@@ -127,6 +126,7 @@ foreach($_POST AS $key => $value){
 <div id="otherformelements" class="applicationDemo"> 
 	<div class="containerMessage">
 
+		<?php echo $api_response; ?>
 		<?php echo $api_response; ?>
 	</div>
 	<div style="clear: both;"></div>
