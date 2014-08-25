@@ -1,0 +1,239 @@
+<# include "_authentication_admin.espx" #>
+<# include "_htmlheader.espx" #>
+
+<# include "_admin_menu.espx" #>
+<script>
+jQuery(document).ready(function(){
+	$(".emailsignup").hide();
+});
+</script>
+
+<# start form for billing_application <#[url.edit]#>; 
+when creating set billing_application.id to "04df66fee0644a1bb070b730fab29f6d";
+when creating set billing_application.complete to "started";
+
+when creating set billing_application.business_location_phone to "";
+when creating set billing_application.business_location_fax to "";
+when creating set billing_application.business_email to "";
+when creating set billing_application.business_website to "";
+when creating set billing_application.business_legal_name to "";
+when creating set billing_application.business_legal_address to "";
+when creating set billing_application.business_legal_city to "";
+when creating set billing_application.business_legal_state to "";
+when creating set billing_application.business_legal_zip to "";
+when creating set billing_application.business_contact_fax to "";
+when creating set billing_application.business_ein to "";
+when creating set billing_application.business_tax_name to "";
+when creating set billing_application.business_tax_class to "";
+when creating set billing_application.business_tax_state to "";
+when creating set billing_application.business_start_date to "";
+when creating set billing_application.business_customer_service_phone to "";
+when creating set billing_application.vendor_reference_name to "";
+when creating set billing_application.vendor_reference_address to "";
+when creating set billing_application.vendor_reference_city to "";
+when creating set billing_application.vendor_reference_state to "";
+when creating set billing_application.vendor_reference_zip to "";
+when creating set billing_application.vendor_reference_contact to "";
+when creating set billing_application.vendor_reference_phone to "";
+when creating set billing_application.vendor_reference_account to "";
+when creating set billing_application.business_industry to "";
+when creating set billing_application.business_sub_industry to "";
+when creating set billing_application.business_owner_name to "";
+when creating set billing_application.business_owner_percentage to "";
+when creating set billing_application.business_owner_address to "";
+when creating set billing_application.business_owner_city to "";
+when creating set billing_application.business_owner_state to "";
+when creating set billing_application.business_owner_zip to "";
+when creating set billing_application.business_owner_phone to "";
+when creating set billing_application.business_refund_policy to "";
+when creating set billing_application.vendor_reference_name to "";
+when creating set billing_application.vendor_reference_address to "";
+when creating set billing_application.vendor_reference_city to "";
+when creating set billing_application.vendor_reference_state to "";
+when creating set billing_application.vendor_reference_zip to "";
+when creating set billing_application.vendor_reference_contact to "";
+when creating set billing_application.vendor_reference_phone to "";
+when creating set billing_application.vendor_reference_account to "";
+when creating set billing_application.business_address_years to "";
+when creating set billing_application.business_required_deposit to "";
+when creating set billing_application.business_sales_volume to "";
+when creating set billing_application.business_high_ticket to "";
+when creating set billing_application.business_average_ticket to "";
+when creating set billing_application.business_deposit_bank to "";
+when creating set billing_application.business_routing_number to "";
+when creating set billing_application.business_bank_account_number to "";
+when creating set billing_application.business_owner_first_name to "";
+when creating set billing_application.business_owner_last_name to "";
+when creating set billing_application.business_owner_address to "";
+when creating set billing_application.business_owner_city to "";
+when creating set billing_application.business_owner_state to "";
+when creating set billing_application.business_owner_zip to "";
+when creating set billing_application.business_owner_email to "";
+when creating set billing_application.business_owner_phone to "";
+when creating set billing_application.business_owner_title to "";
+when creating set billing_application.business_owner_percentage to "";
+when creating set billing_application.business_owner_ssn to "";
+when creating set billing_application.business_owner_dob to "";
+when creating set billing_application.business_owner_license to "";
+
+when creating redirect to "/?page=admin_wizard_merchant_application_processing&edit=04df66fee0644a1bb070b730fab29f6d";
+when updating redirect to "/?page=admin_wizard_merchant_application_processing&edit=04df66fee0644a1bb070b730fab29f6d";
+when deleting redirect to "/?page=admin_wizard_merchant_application_processing&edit=04df66fee0644a1bb070b730fab29f6d";
+#>
+<style>
+	.divSpacer{margin-top: 5px;margin-bottom: 15px;}
+	.instructions{font-size: 10px;margin-top: 10px;margin-bottom: 15px;}
+	
+	.applicationDemo input[type="text"]{
+	    max-width: 200px;
+	}
+	.applicationDemo input[type="password"]{
+	    max-width: 200px;
+	}
+	.applicationDemo select{
+	    max-width: 200px;
+	}
+</style>
+<div id="otherformelements" class="applicationDemo"> 
+		<p style="font-weight: bold;margin-top: 10px;">Cloudward Billing Setup</p>
+		<div id="instructions" class="instructions" style="width: 65%;float: left;">
+			Complete the Cloudward Billing form below to create your merchant billing account.
+		</div>
+		<div style="width: 30%;text-align: right;float: right;">
+			<a href="/?page=admin_wizard_billing_ids">I Already Have A Cloud Billing Account</a>
+		</div>
+		<!-- left container -->
+		<div style="width: 50%;float: left;">
+			<div style="width: 100%;">Company Info</div>
+			<div id="businessName" class="divSpacer">
+				<div class="label">
+					Business Name<br><span style="font-size: 9px;">(Your Businesses Name)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessNameForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_name #>  required=required>
+				</div>
+			</div>	
+			<div id="businessAddress" class="local divSpacer">
+				<div class="label">
+					Address<br><span style="font-size: 9px;">(Businesses Address)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text"  id="businessAddressForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_address #>   required=required>
+				</div>
+			</div>
+			<div id="businessAddress2" class="local divSpacer">
+				<div class="label">
+					Address2<br><span style="font-size: 9px;">(Business Address line two)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessAddress2Form" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_address2 #> >
+				</div>
+			</div>
+			<div id="businessCity" class="divSpacer">
+				<div class="label">
+					City<br><span style="font-size: 9px;">(Business City)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessCityForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_city #>   required=required>
+				</div>
+			</div>
+			<div id="businessState" class="divSpacer">
+				<div class="label">
+					State<br><span style="font-size: 9px;">(Business State)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessStateForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_state #>   required=required>
+				</div>
+			</div>
+			<div id="businessZip" class="divSpacer">
+				<div class="label">
+					Zip<br><span style="font-size: 9px;">(Business Zip Code/Postal Code)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessZipForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.buisiness_zip #>   required=required>
+				</div>
+			</div>
+		</div>
+		
+		<!-- right container -->
+		<div style="width: 50%; float: right;">
+			<div id="businessContact" class="divSpacer">
+				<div class="label">
+					Contact Name<br><span style="font-size: 9px;">(Your Businesses Main Contact Person)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessContactForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_contact_name #>   required=required>
+				</div>
+			</div>
+			<div id="businessPhone" class="divSpacer">
+				<div class="label">
+					Contact Phone<br><span style="font-size: 9px;">(Your Business Main Contact Phone Number)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessPhoneForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_contact_phone #>   required=required>
+				</div>
+			</div>
+			<div id="businessEmail" class="divSpacer">
+				<div class="label">
+					Contact Email<br><span style="font-size: 9px;">(Your Business Main Contact Email Address)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessEmailForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_contact_email #>   required=required>
+				</div>
+			</div>
+			<div id="billingAddress" class="divSpacer">
+				<div class="label">
+					Billing Address<br><span style="font-size: 9px;">(Your Businesses Billing Address)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="businessAddressForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_billing_address #>   required=required>
+				</div>
+			</div>
+			<div id="billingAddress2" class="divSpacer">
+				<div class="label">
+					Billing Address2<br><span style="font-size: 9px;">(Business Billing Address Line Two)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="billingAddress2Form" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_billing_address2 #> >
+				</div>
+			</div>
+			<div id="billingCity" class="divSpacer">
+				<div class="label">
+					Billing City<br><span style="font-size: 9px;">(Business Billing City)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="billingCity" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_billing_city #>   required=required>
+				</div>
+			</div>
+			<div id="billingState" class="divSpacer">
+				<div class="label">
+					Billing State<br><span style="font-size: 9px;">(Business Billing State)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="billingStateForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_billing_state #>   required=required>
+				</div>
+			</div>
+			<div id="billingZip" class="divSpacer">
+				<div class="label">
+					Billing Zip<br><span style="font-size: 9px;">(Business Billing Zip Code/Postal Code)</span><br>
+				</div>
+				<div class="formElem">
+					<input type="text" id="billingZipForm" style="width:300px;height:18px;font-size:14px"  <# billing_application.business_billing_zip #>   required=required>
+				</div>
+			</div>
+			
+
+		</div>
+		<div id="buttonBar" style="width: 85%;float: left;text-align: right;">
+			<input type="button" id="createButton" value="Submit" <# create button #> >
+			<input type="button" id="updateButton" style="margin-right: 40px;" value="Submit" <# update button #> >
+		</div>
+		
+	</p>
+</div>
+<# end form #>
+
+
+<# include "_admin_footer.espx" #>
+
+<# include "_htmlfooter.espx" #>

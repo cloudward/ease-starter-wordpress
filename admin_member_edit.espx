@@ -1,0 +1,270 @@
+<# include "_authentication_admin.espx" #>
+<# include "_htmlheader.espx" #>
+
+
+<# include "_admin_menu.espx" #>
+<div class="memberEdit">
+<h2>Member Details</h2>
+<# start form for webuser <#[url.edit]#>; 
+when creating set webuser.source to "admin_user"; 
+when creating redirect to "/?page=admin_member_list";
+when updating redirect to "/?page=admin_member_list";
+when deleting redirect to "/?page=admin_member_list";
+#> 
+<table id="memberForm">
+	<tr>
+		<td valign="top">
+			<table>
+				<tr id="firstNameRow">
+					<td>First</td>
+					<td><input type="text" style="width:200px" <# webuser.first #> ></td>
+				</tr>
+				<tr id="lastNameRow">
+					<td>Last</td>
+					<td><input type="text" style="width:200px" <# webuser.last #> ></td>
+				</tr>
+				<tr id="companyRow">
+					<td>Company</td>
+					<td><input type="text" style="width:200px" <# webuser.company #> ></td>
+				</tr>
+				<tr id="emailRow">
+					<td>Email</td>
+					<td><input type="text" style="width:200px" <# webuser.email #> ></td>
+				</tr>
+			</table>
+		</td>
+		<td valign="top">
+			<table>
+				<tr id="phoneRow">
+					<td>Phone</td>
+					<td><input type="text" style="width:200px" <# webuser.phone #> ></td>
+				</tr>
+				<tr id="userNameRow">
+					<td>Username</td>
+					<td><input type="text" style="width:200px" <# webuser.username #> ></td>
+				</tr>
+				<tr id="passwordRow">
+					<td>Password</td>
+					<td>
+						<input type="password" style="width:200px" <# webuser.password #> >
+					</td>
+				</tr>
+				<tr id="statusRow">
+					<td>Status</td>
+					<td>
+						<select <# webuser.status #> >
+				    		<option value="active" >active</option>
+				    		<option value="deactive" >deactive</option>
+				    		<option value="declined" >declined</option>
+				    		<option value="new_request" >new_request</option>
+						</select>
+					</td>
+				</tr>
+				<tr id="accessRow">
+					<td>Access</td>
+					<td>
+						<select <# webuser.type #> >
+					    	<option value="members" >members</option>
+					    	<option value="admin" >admin + members</option>
+						</select>
+					</td>
+				</tr>
+				<tr id="levelRow">
+					<td>Select Member Level:</td>
+					<td>
+						<select <# webuser.member_level #> >
+						<# if ("<#[easvault.free_label_checkbox]#>" == "Yes") {
+						<option value="<#[easvault.free_label]#>" ><#[easvault.free_label]#></option>
+						}
+						#>
+						<# if ("<#[easvault.basic_label_checkbox]#>" == "Yes") {
+					    	<option value="<#[easvault.basic_label]#>" ><#[easvault.basic_label]#> ($ <#[easvault.basic_cost]#> )</option>
+						}
+						#>
+						<# if ("<#[easvault.premium_label_checkbox]#>" == "Yes") {
+					    	<option value="<#[easvault.premium_label]#>" ><#[easvault.premium_label]#> ($ <#[easvault.premium_cost]#> )</option>
+						}
+						#>
+						</select>
+					</td>
+				</tr>
+				<tr id="optionsRow">
+					<td colspan="2"><input type="checkbox" value="Yes" <# webuser.memberdirectory #> > Show in Member Directory</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table>
+				<tr id="addressInfoRow">
+					<td colspan="2"><B>Address Info</B></td>
+				</tr>
+				<tr id="addressRow">
+					<td>
+						Address1
+					</td>
+					<td>
+						<input type="text" <# webuser.address #> >
+					</td>
+				</tr>
+				<tr id="address2Row">
+					<td>Address2</td>
+					<td>
+						<input type="text" style="width:200px" <# webuser.address2 #> >
+					</td>
+				</tr>
+				<tr id="cityRow">
+					<td>City</td>
+					<td>
+						<input type="text" style="width:200px" <# webuser.city #> >
+					</td>
+				</tr>
+				<tr id="stateRow">
+					<td>State</td>
+					<td>
+						<input type="text" style="width:200px" <# webuser.state #> >
+					</td>
+				</tr>
+				<tr id="zipRow">
+					<td>Zip</td>
+					<td>
+						<input type="text" style="width:200px" <# webuser.zip #> >
+					</td>
+				</tr>
+				<tr id="countryRow">
+					<td>Country</td>
+					<td>
+						<input type="text" style="width:200px" <# webuser.country #> >
+					</td>
+				</tr>	
+			</table>
+		</td>
+		<td></td>
+	</tr>
+	<tr id="buttonRow">
+		<td colspan="2">
+			<input type="button" value="Create" <# create button #> >
+			<input type="button" value="Save Changes" <# update button #> >
+			<input type="button" value="Delete" <# delete button #> >
+		</td>
+	</tr>
+</table>
+<# end form #> 
+
+<hr>
+
+<h2>Account Notes & Ledger</h2>
+<# start form for webuseraccount <#[url.editaccount]#>; 
+when creating set webuseraccount.timestamp to "<# system.date_time_short #>"; 
+when creating set webuseraccount.parent to "<#[url.edit]#>"; 
+when creating redirect to "/?page=admin_member_edit&edit=<#[url.edit]#>&editaccount=0";
+when updating redirect to "/?page=admin_member_edit&edit=<#[url.edit]#>&editaccount=0";
+when deleting redirect to "/?page=admin_member_edit&edit=<#[url.edit]#>&editaccount=0";
+#> 
+<table style="width: 50%;" id="accountLedgerTable">
+	<tr id="labelRow">
+		<td>Lable:</td>
+		<td><input type="text" style="width:200px" <# webuseraccount.label #> ></td>
+	</tr>
+	<tr id="noteRow">
+		<td>Note:</td>
+		<td><input type="text" style="width:200px" <# webuseraccount.note #> ></td>
+	</tr>
+	<tr id="typeRow">
+		<td>Type:</td>
+		<td>
+			<select <# webuseraccount.type #> >
+			    <option value="note" >note</option>
+			    <option value="payment" >payment</option>
+			    <option value="debit" >debit</option>
+			</select>
+		</td>
+	</tr>
+	<tr id="paymentRow">
+		<td>Payment/Debit Amount:</td>
+		<td>
+			<input type="text" style="width:100px" <# webuseraccount.amount #> >
+		</td>
+	</tr>
+	<tr id="button2Row">
+		<td colspan="2">
+			<input type="button" value="Create" <# create button #> >
+			<input type="button" value="Update" <# update button #> >
+			<input type="button" value="Delete" <# delete button #> >
+		</td>
+	</tr>
+</table>
+<# end form #> 
+
+<hr size="1">
+<h2>Account Notes</h2>
+
+
+<# start list for webuseraccount;
+include when webuseraccount.parent == "<#[url.edit]#>";
+show 25 rows per page;
+sort by webuseraccount.timestamp in descending order;
+#>
+
+<# start header #>
+
+<table class="accountnotes" id="accountsTable">
+	<tr id="accountsHeaderRow">
+		<td class="accountnotesheader"></td>
+		<td class="accountnotesheader">Label</td>
+		<td class="accountnotesheader">Note</td>
+		<td class="accountnotesheader">Type</td>
+		<td class="accountnotesheader">Amount</td>
+	</tr>
+	
+<# end header #>
+
+<# start row #>
+	<tr >
+		<td class="accountnotesrow">
+			<a href="/?page=admin_member_edit&edit=<# webuseraccount.parent #>&editaccount=<# webuseraccount.id #>" >[Edit]</a>
+		</td>
+		<td class="accountnotesrow">
+		<# webuseraccount.label #>
+		</td>
+		<td class="accountnotesrow">
+			<# webuseraccount.note #>
+		</td>
+		<td class="accountnotesrow">
+			 <# webuseraccount.type #>
+		</td>
+		<td class="accountnotesrow">
+			<center>
+			 <# webuseraccount.amount #> 
+			</center>
+		</td>
+ </tr>
+<# end row #>
+
+<# start footer #>
+<tr class="accountnotesfooter">
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</table>
+<# end footer #>
+
+<# no results #>
+<p><b>There are no account notes in this list yet...</b></p>
+
+</table>
+
+<# end no results #>
+
+<# end list #>
+
+</div>
+
+<# include "_admin_footer.espx" #>
+
+<# include "_htmlfooter.espx" #>
+
